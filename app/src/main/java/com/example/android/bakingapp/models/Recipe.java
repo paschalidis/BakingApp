@@ -1,17 +1,31 @@
 package com.example.android.bakingapp.models;
 
-import java.util.ArrayList;
+import com.example.android.bakingapp.recipeApi.ApiUtilities;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class Recipe {
 
+    @SerializedName(ApiUtilities.RECIPE_ID)
     private int mId;
+
+    @SerializedName(ApiUtilities.RECIPE_NAME)
     private String mName;
-    private ArrayList<Ingredient> mIngredients;
-    private ArrayList<Step> mSteps;
-    private int mServings;
+
+    @SerializedName(ApiUtilities.RECIPE_INGREDIENTS)
+    private List<Ingredient> mIngredients;
+
+    @SerializedName(ApiUtilities.RECIPE_STEPS)
+    private List<Step> mSteps;
+
+    @SerializedName(ApiUtilities.RECIPE_SERVINGS)
+    private String mServings;
+
+    @SerializedName(ApiUtilities.RECIPE_IMAGE)
     private String mImage;
 
-    public Recipe(int id, String name, ArrayList<Ingredient> ingredients, ArrayList<Step> steps, int servings, String image) {
+    public Recipe(int id, String name, List<Ingredient> ingredients, List<Step> steps, String servings, String image) {
         this.mId = id;
         this.mName = name;
         this.mIngredients = ingredients;
@@ -32,31 +46,31 @@ public class Recipe {
         return this.mName;
     }
 
-    public void setId(String name) {
+    public void setName(String name) {
         this.mName = name;
     }
 
-    public ArrayList<Ingredient> getmIngredients() {
+    public List<Ingredient> getIngredients() {
         return this.mIngredients;
     }
 
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.mIngredients = ingredients;
     }
 
-    public ArrayList<Step> getSteps() {
+    public List<Step> getSteps() {
         return this.mSteps;
     }
 
-    public void setSteps(ArrayList<Step> steps) {
+    public void setSteps(List<Step> steps) {
         this.mSteps = steps;
     }
 
-    public int getServings() {
+    public String getServings() {
         return this.mServings;
     }
 
-    public void setServings(int servings) {
+    public void setServings(String servings) {
         this.mServings = servings;
     }
 

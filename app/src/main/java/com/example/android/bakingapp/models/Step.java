@@ -1,11 +1,23 @@
 package com.example.android.bakingapp.models;
 
+import com.example.android.bakingapp.recipeApi.ApiUtilities;
+import com.google.gson.annotations.SerializedName;
+
 public class Step {
 
+    @SerializedName(ApiUtilities.STEP_ID)
     private int mId;
+
+    @SerializedName(ApiUtilities.STEP_SHORT_DESCRIPTION)
     private String mShortDescription;
+
+    @SerializedName(ApiUtilities.STEP_DESCRIPTION)
     private String mDescription;
+
+    @SerializedName(ApiUtilities.STEP_VIDEO_URL)
     private String mVideoUrl;
+
+    @SerializedName(ApiUtilities.STEP_THUMBNAIL_URL)
     private String mThumbnailUrl;
 
 
