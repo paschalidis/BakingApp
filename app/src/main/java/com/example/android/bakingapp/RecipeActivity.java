@@ -3,8 +3,9 @@ package com.example.android.bakingapp;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v4.app.FragmentManager;
 
+import com.example.android.bakingapp.fragments.RecipeFragment;
 import com.example.android.bakingapp.models.Recipe;
 
 public class RecipeActivity extends AppCompatActivity {
@@ -19,9 +20,15 @@ public class RecipeActivity extends AppCompatActivity {
             if(intentThatStartedThisActivity.hasExtra(MainActivity.RECIPE_ENTITY)){
                 Recipe recipe = intentThatStartedThisActivity.getParcelableExtra(MainActivity.RECIPE_ENTITY);
 
+                RecipeFragment recipeFragment = new RecipeFragment();
 
-                TextView textView = findViewById(R.id.recipe_name_text_view);
-                textView.setText(recipe.getName());
+                recipeFragment.setRecipe(recipe);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                fragmentManager.beginTransaction()
+                        .add(R.id.recipe_fragment, recipeFragment)
+                        .commit();
             }
         }
     }
