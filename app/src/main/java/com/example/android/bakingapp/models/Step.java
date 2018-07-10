@@ -1,9 +1,12 @@
 package com.example.android.bakingapp.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.example.android.bakingapp.recipeApi.ApiUtilities;
 import com.google.gson.annotations.SerializedName;
 
-public class Step {
+public class Step implements Parcelable {
 
     @SerializedName(ApiUtilities.STEP_ID)
     private int mId;
@@ -27,6 +30,14 @@ public class Step {
         this.mDescription = description;
         this.mVideoUrl = videoUrl;
         this.mThumbnailUrl = thumbnailUrl;
+    }
+
+    private Step(Parcel in) {
+        mId = in.readInt();
+        mShortDescription = in.readString();
+        mDescription = in.readString();
+        mVideoUrl = in.readString();
+        mThumbnailUrl = in.readString();
     }
 
     public int getId() {
@@ -68,4 +79,30 @@ public class Step {
     public void setThumbnailUrl(String thumbnailUrl) {
         this.mThumbnailUrl = thumbnailUrl;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mShortDescription);
+        dest.writeString(mDescription);
+        dest.writeString(mVideoUrl);
+        dest.writeString(mThumbnailUrl);
+    }
+
+    public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
+        @Override
+        public Step createFromParcel(Parcel source) {
+            return new Step(source);
+        }
+
+        @Override
+        public Step[] newArray(int i) {
+            return new Step[i];
+        }
+    };
 }

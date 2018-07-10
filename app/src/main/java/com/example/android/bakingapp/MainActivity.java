@@ -2,12 +2,12 @@ package com.example.android.bakingapp;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.example.android.bakingapp.models.Recipe;
 
@@ -15,6 +15,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
 
+    public final static String RECIPE_ENTITY = "recipe_entity";
     private RecipeAdapter mRecipeAdapter;
     private RecyclerView mRecipeRecyclerView;
 
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
 
     @Override
     public void onClick(Recipe recipe) {
-        Toast.makeText(this, "Clcik on " + recipe.getName(), Toast.LENGTH_LONG).show();
+        Intent intentToStartRecipeActivity = new Intent(this, RecipeActivity.class);
+        intentToStartRecipeActivity.putExtra(RECIPE_ENTITY, recipe);
+        startActivity(intentToStartRecipeActivity);
     }
 }
