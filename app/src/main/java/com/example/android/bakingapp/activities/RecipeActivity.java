@@ -25,6 +25,7 @@ public class RecipeActivity extends AppCompatActivity {
             }
         }
 
+        // Only create new fragments when there is no previously saved state
         if (savedInstanceState == null) {
             RecipeFragment recipeFragment = new RecipeFragment();
             recipeFragment.setRecipe(mRecipe);

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,10 @@ public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterO
 
     public static final String RECIPE_OBJECT = "recipe_object";
     public static final String STEP_ENTITY = "step_entity";
+
+    // Tag for logging
+    private static final String TAG = RecipeFragment.class.getSimpleName();
+
     private Recipe mRecipe;
 
     public RecipeFragment() {
@@ -34,7 +39,7 @@ public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterO
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             mRecipe = savedInstanceState.getParcelable(RECIPE_OBJECT);
         }
 
@@ -56,6 +61,8 @@ public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterO
 
             stepAdapter.setStepData(mRecipe.getSteps());
             recyclerView.setAdapter(stepAdapter);
+        } else {
+            Log.v(TAG, "This fragment has a null list of image id's");
         }
 
 
