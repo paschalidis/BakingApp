@@ -1,5 +1,6 @@
 package com.example.android.bakingapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.RecipeActivity;
+import com.example.android.bakingapp.RecipeDetailActivity;
 import com.example.android.bakingapp.adapters.StepAdapter;
 import com.example.android.bakingapp.models.Recipe;
 import com.example.android.bakingapp.models.Step;
@@ -20,20 +23,20 @@ import com.example.android.bakingapp.models.Step;
  */
 public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterOnClickHandler {
 
-    public static final String RECIPE_DETAIL = "recipe_object";
+    public static final String RECIPE_OBJECT = "recipe_object";
+    public static final String STEP_ENTITY = "step_entity";
     private Recipe mRecipe;
 
     public RecipeFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         if(savedInstanceState != null){
-            mRecipe = savedInstanceState.getParcelable(RECIPE_DETAIL);
+            mRecipe = savedInstanceState.getParcelable(RECIPE_OBJECT);
         }
 
         // Inflate the layout for this fragment
@@ -66,11 +69,13 @@ public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterO
 
     @Override
     public void onClick(Step step) {
-
+        Intent intentToStartRecipeDetailActivity = new Intent(getContext(), RecipeDetailActivity.class);
+        intentToStartRecipeDetailActivity.putExtra(STEP_ENTITY, step);
+        startActivity(intentToStartRecipeDetailActivity);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(RECIPE_DETAIL, mRecipe);
+        outState.putParcelable(RECIPE_OBJECT, mRecipe);
     }
 }
