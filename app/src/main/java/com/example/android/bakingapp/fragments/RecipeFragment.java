@@ -1,6 +1,7 @@
 package com.example.android.bakingapp.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.example.android.bakingapp.models.Step;
  */
 public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterOnClickHandler {
 
+    public static final String RECIPE_DETAIL = "recipe_object";
     private Recipe mRecipe;
 
     public RecipeFragment() {
@@ -29,6 +31,11 @@ public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterO
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if(savedInstanceState != null){
+            mRecipe = savedInstanceState.getParcelable(RECIPE_DETAIL);
+        }
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_recipe, container, false);
 
@@ -60,5 +67,10 @@ public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterO
     @Override
     public void onClick(Step step) {
 
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putParcelable(RECIPE_DETAIL, mRecipe);
     }
 }
