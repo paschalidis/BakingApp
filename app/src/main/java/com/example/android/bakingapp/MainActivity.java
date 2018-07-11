@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.android.bakingapp.adapters.RecipeAdapter;
 import com.example.android.bakingapp.models.Recipe;
 
 import java.util.List;
