@@ -1,4 +1,4 @@
-package com.example.android.bakingapp;
+package com.example.android.bakingapp.activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.RecipeViewModel;
 import com.example.android.bakingapp.adapters.RecipeAdapter;
 import com.example.android.bakingapp.models.Recipe;
 

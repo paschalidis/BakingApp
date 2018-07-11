@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.RecipeActivity;
-import com.example.android.bakingapp.RecipeDetailActivity;
+import com.example.android.bakingapp.activities.RecipeDetailActivity;
 import com.example.android.bakingapp.adapters.StepAdapter;
 import com.example.android.bakingapp.models.Recipe;
 import com.example.android.bakingapp.models.Step;

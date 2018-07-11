@@ -1,10 +1,11 @@
-package com.example.android.bakingapp;
+package com.example.android.bakingapp.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
+import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.fragments.RecipeFragment;
 import com.example.android.bakingapp.models.Recipe;
 
