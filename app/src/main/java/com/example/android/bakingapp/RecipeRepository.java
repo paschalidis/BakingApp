@@ -13,21 +13,37 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Singleton Class
+ */
 public class RecipeRepository {
     private ApiInterface mApiClient;
+    private MutableLiveData<List<Recipe>> mRecipeResponce;
+
+    private static RecipeRepository mInstance;
 
     public RecipeRepository() {
         mApiClient = ApiClient.getClient().create(ApiInterface.class);
+        mRecipeResponce = new MutableLiveData<>();
+    }
+
+    public static RecipeRepository getInstance() {
+        if (mInstance == null) {
+            mInstance = new RecipeRepository();
+        }
+        return mInstance;
     }
 
     public LiveData<List<Recipe>> getRecipes() {
 
-        final MutableLiveData<List<Recipe>> data = new MutableLiveData<>();
+        if (mRecipeResponce.getValue() != null) {
+            return mRecipeResponce;
+        }
 
         mApiClient.getRecipes().enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                data.setValue(response.body());
+                mRecipeResponce.setValue(response.body());
             }
 
             @Override
@@ -36,6 +52,6 @@ public class RecipeRepository {
             }
         });
 
-        return data;
+        return mRecipeResponce;
     }
 }
