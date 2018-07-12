@@ -11,16 +11,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.models.Ingredient;
 import com.example.android.bakingapp.models.Step;
+
+import java.util.ArrayList;
 
 public class RecipeDetailFragment extends Fragment {
 
     public static final String STEP_OBJECT = "step_object";
+    public static final String INGREDIENT_LIST = "ingredient_list";
 
     // Tag for logging
     private static final String TAG = RecipeFragment.class.getSimpleName();
 
     private Step mStep;
+    private ArrayList<Ingredient> mIngredients;
 
     public RecipeDetailFragment() {
 
@@ -32,18 +37,27 @@ public class RecipeDetailFragment extends Fragment {
 
         if (savedInstanceState != null) {
             mStep = savedInstanceState.getParcelable(STEP_OBJECT);
+            mIngredients = savedInstanceState.getParcelableArrayList(INGREDIENT_LIST);
         }
 
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
+        View rootView = new View(inflater.getContext());
 
         if (mStep != null) {
+            // Inflate the layout for this fragment
+            rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
+
             TextView textView = rootView.findViewById(R.id.recipe_detail_description_text_view);
             textView.setText(mStep.getDescription());
-        } else {
-            Log.v(TAG, "This fragment has a null Step");
-        }
 
+        } else if (mIngredients != null) {
+            // Inflate the layout for this fragment
+            rootView = inflater.inflate(R.layout.fragment_recipe_ingredient, container, false);
+            TextView textView = rootView.findViewById(R.id.ingredient_text_view);
+            textView.setText("Ingredient for fragment Wouaho!!!");
+            return rootView;
+        } else {
+            Log.v(TAG, "This fragment has a null Step and null Ingredient");
+        }
 
         return rootView;
     }
@@ -52,8 +66,13 @@ public class RecipeDetailFragment extends Fragment {
         mStep = step;
     }
 
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        mIngredients = ingredients;
+    }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelable(STEP_OBJECT, mStep);
+        outState.putParcelableArrayList(INGREDIENT_LIST, mIngredients);
     }
 }

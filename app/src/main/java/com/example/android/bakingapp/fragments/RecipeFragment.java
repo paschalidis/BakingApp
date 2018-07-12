@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.StepAdapter;
+import com.example.android.bakingapp.interfaces.IngredientOnClickHandler;
 import com.example.android.bakingapp.interfaces.StepOnClickHandler;
 import com.example.android.bakingapp.models.Recipe;
 
@@ -29,6 +30,7 @@ public class RecipeFragment extends Fragment {
 
     private Recipe mRecipe;
     private StepOnClickHandler mStepOnClickHandler;
+    private IngredientOnClickHandler mIngredientOnClickHandler;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -59,6 +61,13 @@ public class RecipeFragment extends Fragment {
             StepAdapter stepAdapter = new StepAdapter(getContext(), mStepOnClickHandler, mRecipe.getSteps());
 
             recyclerView.setAdapter(stepAdapter);
+
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mIngredientOnClickHandler.onIngredientClick(v);
+                }
+            });
         } else {
             Log.v(TAG, "This fragment has a null list of recipes");
         }
@@ -83,6 +92,12 @@ public class RecipeFragment extends Fragment {
             mStepOnClickHandler = (StepOnClickHandler) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement StepAdapterClickHandler");
+        }
+
+        try {
+            mIngredientOnClickHandler = (IngredientOnClickHandler) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement IngredientOnClickHandler");
         }
     }
 }

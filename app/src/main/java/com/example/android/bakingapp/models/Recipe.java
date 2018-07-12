@@ -18,7 +18,7 @@ public class Recipe implements Parcelable {
     private String mName;
 
     @SerializedName(ApiUtilities.RECIPE_INGREDIENTS)
-    private List<Ingredient> mIngredients;
+    private ArrayList<Ingredient> mIngredients;
 
     @SerializedName(ApiUtilities.RECIPE_STEPS)
     private List<Step> mSteps;
@@ -29,7 +29,7 @@ public class Recipe implements Parcelable {
     @SerializedName(ApiUtilities.RECIPE_IMAGE)
     private String mImage;
 
-    public Recipe(int id, String name, List<Ingredient> ingredients, List<Step> steps, String servings, String image) {
+    public Recipe(int id, String name, ArrayList<Ingredient> ingredients, List<Step> steps, String servings, String image) {
         this.mId = id;
         this.mName = name;
         this.mIngredients = ingredients;
@@ -69,11 +69,11 @@ public class Recipe implements Parcelable {
         this.mName = name;
     }
 
-    public List<Ingredient> getIngredients() {
+    public ArrayList<Ingredient> getIngredients() {
         return this.mIngredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
         this.mIngredients = ingredients;
     }
 

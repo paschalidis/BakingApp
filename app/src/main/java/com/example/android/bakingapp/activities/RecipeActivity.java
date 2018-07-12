@@ -4,17 +4,20 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.fragments.RecipeDetailFragment;
 import com.example.android.bakingapp.fragments.RecipeFragment;
+import com.example.android.bakingapp.interfaces.IngredientOnClickHandler;
 import com.example.android.bakingapp.interfaces.StepOnClickHandler;
 import com.example.android.bakingapp.models.Recipe;
 import com.example.android.bakingapp.models.Step;
 
-public class RecipeActivity extends AppCompatActivity implements StepOnClickHandler {
+public class RecipeActivity extends AppCompatActivity implements StepOnClickHandler, IngredientOnClickHandler {
 
     public static final String STEP_ENTITY = "step_entity";
+    public static final String INGREDIENT_ENTITY = "ingredient_entity";
     private Recipe mRecipe;
     private boolean mTwoPane;
 
@@ -34,26 +37,20 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
             mTwoPane = true;
 
             // Only create new fragments when there is no previously saved state
-//            if (savedInstanceState == null) {
-//                RecipeFragment recipeFragment = new RecipeFragment();
-//                recipeFragment.setRecipe(mRecipe);
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                fragmentManager.beginTransaction()
-//                        .add(R.id.recipe_fragment_container, recipeFragment)
-//                        .commit();
-
-//                RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-//                recipeDetailFragment.setStep(mStep);
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                fragmentManager.beginTransaction()
-//                        .add(R.id.recipe_detail_fragment_container, recipeDetailFragment)
-//                        .commit();
-//            }
+            if (savedInstanceState == null) {
+                RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+                recipeDetailFragment.setIngredients(mRecipe.getIngredients());
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.recipe_detail_fragment_container, recipeDetailFragment)
+                        .commit();
+            }
 
         } else {
             mTwoPane = false;
         }
 
+        // Only create new fragments when there is no previously saved state
         if (savedInstanceState == null) {
             RecipeFragment recipeFragment = new RecipeFragment();
             recipeFragment.setRecipe(mRecipe);
@@ -67,7 +64,6 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
 
     @Override
     public void onStepClick(Step step) {
-
         if (mTwoPane) {
             RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
             recipeDetailFragment.setStep(step);
@@ -81,4 +77,21 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
             startActivity(intentToStartRecipeDetailActivity);
         }
     }
+
+    @Override
+    public void onIngredientClick(View view) {
+        if (mTwoPane) {
+            RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+            recipeDetailFragment.setIngredients(mRecipe.getIngredients());
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.recipe_detail_fragment_container, recipeDetailFragment)
+                    .commit();
+        } else {
+            Intent intentToStartRecipeDetailActivity = new Intent(view.getContext(), RecipeDetailActivity.class);
+            intentToStartRecipeDetailActivity.putParcelableArrayListExtra(INGREDIENT_ENTITY, mRecipe.getIngredients());
+            startActivity(intentToStartRecipeDetailActivity);
+        }
+    }
+
 }
