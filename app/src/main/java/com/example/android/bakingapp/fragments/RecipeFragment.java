@@ -1,6 +1,6 @@
 package com.example.android.bakingapp.fragments;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,15 +13,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.activities.RecipeDetailActivity;
 import com.example.android.bakingapp.adapters.StepAdapter;
 import com.example.android.bakingapp.models.Recipe;
-import com.example.android.bakingapp.models.Step;
+import com.example.android.bakingapp.adapters.StepAdapter.StepAdapterOnClickHandler;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterOnClickHandler {
+public class RecipeFragment extends Fragment {
 
     public static final String RECIPE_OBJECT = "recipe_object";
     public static final String STEP_ENTITY = "step_entity";
@@ -30,13 +29,14 @@ public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterO
     private static final String TAG = RecipeFragment.class.getSimpleName();
 
     private Recipe mRecipe;
+    private StepAdapterOnClickHandler mStepOnClickHandler;
 
     public RecipeFragment() {
         // Required empty public constructor
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         if (savedInstanceState != null) {
@@ -57,9 +57,8 @@ public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterO
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setHasFixedSize(true);
 
-            StepAdapter stepAdapter = new StepAdapter(rootView.getContext(), this);
+            StepAdapter stepAdapter = new StepAdapter(getContext(), mStepOnClickHandler, mRecipe.getSteps());
 
-            stepAdapter.setStepData(mRecipe.getSteps());
             recyclerView.setAdapter(stepAdapter);
         } else {
             Log.v(TAG, "This fragment has a null list of image id's");
@@ -73,15 +72,25 @@ public class RecipeFragment extends Fragment implements StepAdapter.StepAdapterO
         mRecipe = recipe;
     }
 
-    @Override
-    public void onClick(Step step) {
-        Intent intentToStartRecipeDetailActivity = new Intent(getContext(), RecipeDetailActivity.class);
-        intentToStartRecipeDetailActivity.putExtra(STEP_ENTITY, step);
-        startActivity(intentToStartRecipeDetailActivity);
-    }
+//    @Override
+//    public void onClick(Step step) {
+//        Intent intentToStartRecipeDetailActivity = new Intent(getContext(), RecipeDetailActivity.class);
+//        intentToStartRecipeDetailActivity.putExtra(STEP_ENTITY, step);
+//        startActivity(intentToStartRecipeDetailActivity);
+//    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelable(RECIPE_OBJECT, mRecipe);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            mStepOnClickHandler = (StepAdapterOnClickHandler) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement StepAdapterClickHandler");
+        }
     }
 }

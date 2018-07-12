@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.widget.Toast;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.adapters.StepAdapter;
 import com.example.android.bakingapp.fragments.RecipeFragment;
 import com.example.android.bakingapp.models.Recipe;
+import com.example.android.bakingapp.models.Step;
 
-public class RecipeActivity extends AppCompatActivity {
+public class RecipeActivity extends AppCompatActivity implements StepAdapter.StepAdapterOnClickHandler{
 
     private Recipe mRecipe;
 
@@ -31,8 +34,13 @@ public class RecipeActivity extends AppCompatActivity {
             recipeFragment.setRecipe(mRecipe);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .add(R.id.recipe_fragment, recipeFragment)
+                    .add(R.id.recipe_fragment_container, recipeFragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void onClick(Step step) {
+        Toast.makeText(this, "Step clicked id = " + step.getId(), Toast.LENGTH_SHORT).show();
     }
 }

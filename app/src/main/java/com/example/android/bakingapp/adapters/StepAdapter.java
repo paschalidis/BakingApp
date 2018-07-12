@@ -24,9 +24,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
         void onClick(Step step);
     }
 
-    public StepAdapter(Context context, StepAdapterOnClickHandler clickHandler) {
+    public StepAdapter(Context context, StepAdapterOnClickHandler clickHandler, List<Step> stepData) {
         mContext = context;
-        mSteps = new ArrayList<>();
+        mSteps = stepData;
         mStepClickHandler = clickHandler;
     }
 
@@ -75,11 +75,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
             return 0;
         }
         return mSteps.size();
-    }
-
-    public void setStepData(List<Step> stepData) {
-        mSteps = stepData;
-        notifyDataSetChanged();
     }
 
     public void clearData() {
