@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.StepAdapter;
+import com.example.android.bakingapp.interfaces.StepOnClickHandler;
 import com.example.android.bakingapp.models.Recipe;
-import com.example.android.bakingapp.adapters.StepAdapter.StepAdapterOnClickHandler;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +29,7 @@ public class RecipeFragment extends Fragment {
     private static final String TAG = RecipeFragment.class.getSimpleName();
 
     private Recipe mRecipe;
-    private StepAdapterOnClickHandler mStepOnClickHandler;
+    private StepOnClickHandler mStepOnClickHandler;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -88,7 +88,7 @@ public class RecipeFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            mStepOnClickHandler = (StepAdapterOnClickHandler) context;
+            mStepOnClickHandler = (StepOnClickHandler) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement StepAdapterClickHandler");
         }

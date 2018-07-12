@@ -1,4 +1,4 @@
-package com.example.android.bakingapp;
+package com.example.android.bakingapp.architectureComponents;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -17,7 +17,6 @@ public class RecipeViewModel extends AndroidViewModel {
         super(application);
         mRecipeRepository = RecipeRepository.getInstance();
     }
-
 
     public LiveData<List<Recipe>> getRecipes() {
         if (mRecipes == null) {

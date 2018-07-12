@@ -7,12 +7,12 @@ import android.support.v4.app.FragmentManager;
 import android.widget.Toast;
 
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.adapters.StepAdapter;
 import com.example.android.bakingapp.fragments.RecipeFragment;
+import com.example.android.bakingapp.interfaces.StepOnClickHandler;
 import com.example.android.bakingapp.models.Recipe;
 import com.example.android.bakingapp.models.Step;
 
-public class RecipeActivity extends AppCompatActivity implements StepAdapter.StepAdapterOnClickHandler{
+public class RecipeActivity extends AppCompatActivity implements StepOnClickHandler {
 
     private Recipe mRecipe;
 
@@ -40,7 +40,7 @@ public class RecipeActivity extends AppCompatActivity implements StepAdapter.Ste
     }
 
     @Override
-    public void onClick(Step step) {
+    public void onStepClick(Step step) {
         Toast.makeText(this, "Step clicked id = " + step.getId(), Toast.LENGTH_SHORT).show();
     }
 }

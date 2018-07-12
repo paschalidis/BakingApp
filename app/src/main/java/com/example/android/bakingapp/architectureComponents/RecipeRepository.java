@@ -1,4 +1,4 @@
-package com.example.android.bakingapp;
+package com.example.android.bakingapp.architectureComponents;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -18,13 +18,13 @@ import retrofit2.Response;
  */
 public class RecipeRepository {
     private ApiInterface mApiClient;
-    private MutableLiveData<List<Recipe>> mRecipeResponce;
+    private MutableLiveData<List<Recipe>> mRecipeResponse;
 
     private static RecipeRepository mInstance;
 
-    public RecipeRepository() {
+    private RecipeRepository() {
         mApiClient = ApiClient.getClient().create(ApiInterface.class);
-        mRecipeResponce = new MutableLiveData<>();
+        mRecipeResponse = new MutableLiveData<>();
     }
 
     public static RecipeRepository getInstance() {
@@ -36,14 +36,14 @@ public class RecipeRepository {
 
     public LiveData<List<Recipe>> getRecipes() {
 
-        if (mRecipeResponce.getValue() != null) {
-            return mRecipeResponce;
+        if (mRecipeResponse.getValue() != null) {
+            return mRecipeResponse;
         }
 
         mApiClient.getRecipes().enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                mRecipeResponce.setValue(response.body());
+                mRecipeResponse.setValue(response.body());
             }
 
             @Override
@@ -52,6 +52,6 @@ public class RecipeRepository {
             }
         });
 
-        return mRecipeResponce;
+        return mRecipeResponse;
     }
 }

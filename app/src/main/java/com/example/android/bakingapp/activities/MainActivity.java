@@ -10,13 +10,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.RecipeViewModel;
+import com.example.android.bakingapp.architectureComponents.RecipeViewModel;
 import com.example.android.bakingapp.adapters.RecipeAdapter;
+import com.example.android.bakingapp.interfaces.RecipeOnClickHandler;
 import com.example.android.bakingapp.models.Recipe;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RecipeAdapter.RecipeAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements RecipeOnClickHandler {
 
     public final static String RECIPE_ENTITY = "recipe_entity";
     private RecipeAdapter mRecipeAdapter;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Rec
     }
 
     @Override
-    public void onClick(Recipe recipe) {
+    public void onRecipeClick(Recipe recipe) {
         Intent intentToStartRecipeActivity = new Intent(this, RecipeActivity.class);
         intentToStartRecipeActivity.putExtra(RECIPE_ENTITY, recipe);
         startActivity(intentToStartRecipeActivity);

@@ -6,49 +6,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.adapters.viewHolders.StepAdapterViewHolder;
+import com.example.android.bakingapp.interfaces.StepOnClickHandler;
 import com.example.android.bakingapp.models.Step;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterViewHolder> {
+public class StepAdapter extends RecyclerView.Adapter<StepAdapterViewHolder> {
 
     private Context mContext;
     private List<Step> mSteps;
-    private final StepAdapterOnClickHandler mStepClickHandler;
 
-    public interface StepAdapterOnClickHandler {
-        void onClick(Step step);
-    }
+    private final StepOnClickHandler mStepClickHandler;
 
-    public StepAdapter(Context context, StepAdapterOnClickHandler clickHandler, List<Step> stepData) {
+    public StepAdapter(Context context, StepOnClickHandler clickHandler, List<Step> stepData) {
         mContext = context;
         mSteps = stepData;
         mStepClickHandler = clickHandler;
-    }
-
-    public class StepAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        public final TextView mStepTextView;
-
-        public StepAdapterViewHolder(View itemView) {
-            super(itemView);
-            mStepTextView = (TextView) itemView.findViewById(R.id.recipe_step_text_view);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            int adapterPosition = getAdapterPosition();
-            mStepClickHandler.onClick(mSteps.get(adapterPosition));
-        }
-
-        private void bind(String recipeTitle) {
-            mStepTextView.setText(recipeTitle);
-        }
     }
 
     @NonNull
@@ -57,11 +33,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
         Context context = parent.getContext();
         int layoutIdStepListItem = R.layout.recipe_step_list_item;
         LayoutInflater inflater = LayoutInflater.from(context);
-        boolean shouldAttachToParentImmediately = false;
+        View view = inflater.inflate(layoutIdStepListItem, parent, false);
 
-        View view = inflater.inflate(layoutIdStepListItem, parent, shouldAttachToParentImmediately);
-
-        return new StepAdapter.StepAdapterViewHolder(view);
+        return new StepAdapterViewHolder(view, mStepClickHandler, mSteps);
     }
 
     @Override
@@ -75,14 +49,5 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepAdapterVie
             return 0;
         }
         return mSteps.size();
-    }
-
-    public void clearData() {
-        mSteps.clear();
-        notifyDataSetChanged();
-    }
-
-    public List<Step> getStepData() {
-        return mSteps;
     }
 }
