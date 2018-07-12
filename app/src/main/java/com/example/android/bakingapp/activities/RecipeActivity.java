@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.widget.Toast;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.fragments.RecipeFragment;
@@ -14,6 +13,7 @@ import com.example.android.bakingapp.models.Step;
 
 public class RecipeActivity extends AppCompatActivity implements StepOnClickHandler {
 
+    public static final String STEP_ENTITY = "step_entity";
     private Recipe mRecipe;
 
     @Override
@@ -41,6 +41,8 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
 
     @Override
     public void onStepClick(Step step) {
-        Toast.makeText(this, "Step clicked id = " + step.getId(), Toast.LENGTH_SHORT).show();
+        Intent intentToStartRecipeDetailActivity = new Intent(this, RecipeDetailActivity.class);
+        intentToStartRecipeDetailActivity.putExtra(STEP_ENTITY, step);
+        startActivity(intentToStartRecipeDetailActivity);
     }
 }

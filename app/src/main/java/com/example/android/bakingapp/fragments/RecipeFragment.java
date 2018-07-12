@@ -23,7 +23,6 @@ import com.example.android.bakingapp.models.Recipe;
 public class RecipeFragment extends Fragment {
 
     public static final String RECIPE_OBJECT = "recipe_object";
-    public static final String STEP_ENTITY = "step_entity";
 
     // Tag for logging
     private static final String TAG = RecipeFragment.class.getSimpleName();
@@ -61,7 +60,7 @@ public class RecipeFragment extends Fragment {
 
             recyclerView.setAdapter(stepAdapter);
         } else {
-            Log.v(TAG, "This fragment has a null list of image id's");
+            Log.v(TAG, "This fragment has a null list of recipes");
         }
 
 
@@ -71,13 +70,6 @@ public class RecipeFragment extends Fragment {
     public void setRecipe(Recipe recipe) {
         mRecipe = recipe;
     }
-
-//    @Override
-//    public void onClick(Step step) {
-//        Intent intentToStartRecipeDetailActivity = new Intent(getContext(), RecipeDetailActivity.class);
-//        intentToStartRecipeDetailActivity.putExtra(STEP_ENTITY, step);
-//        startActivity(intentToStartRecipeDetailActivity);
-//    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
