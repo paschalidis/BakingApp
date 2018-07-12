@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.adapters.IngredientAdapter;
 import com.example.android.bakingapp.models.Ingredient;
 import com.example.android.bakingapp.models.Step;
 
@@ -52,8 +55,18 @@ public class RecipeDetailFragment extends Fragment {
         } else if (mIngredients != null) {
             // Inflate the layout for this fragment
             rootView = inflater.inflate(R.layout.fragment_recipe_ingredient, container, false);
-            TextView textView = rootView.findViewById(R.id.ingredient_text_view);
-            textView.setText("Ingredient for fragment Wouaho!!!");
+
+            RecyclerView recyclerView = rootView.findViewById(R.id.recipe_ingredients_recycler_view);
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext());
+
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setHasFixedSize(true);
+
+            IngredientAdapter ingredientAdapter = new IngredientAdapter(getContext(), mIngredients);
+
+            recyclerView.setAdapter(ingredientAdapter);
+
             return rootView;
         } else {
             Log.v(TAG, "This fragment has a null Step and null Ingredient");
