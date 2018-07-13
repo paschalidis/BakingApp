@@ -1,4 +1,4 @@
-package com.example.android.bakingapp.interfaces;
+package com.example.android.bakingapp.clickHandlers;
 
 import com.example.android.bakingapp.models.Recipe;
 

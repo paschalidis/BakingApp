@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.interfaces.RecipeOnClickHandler;
+import com.example.android.bakingapp.clickHandlers.RecipeOnClickHandler;
 import com.example.android.bakingapp.models.Recipe;
 
 import java.util.List;

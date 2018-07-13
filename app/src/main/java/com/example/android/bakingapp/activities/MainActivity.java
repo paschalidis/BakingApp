@@ -12,7 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.architectureComponents.RecipeViewModel;
 import com.example.android.bakingapp.adapters.RecipeAdapter;
-import com.example.android.bakingapp.interfaces.RecipeOnClickHandler;
+import com.example.android.bakingapp.clickHandlers.RecipeOnClickHandler;
 import com.example.android.bakingapp.models.Recipe;
 
 import java.util.List;

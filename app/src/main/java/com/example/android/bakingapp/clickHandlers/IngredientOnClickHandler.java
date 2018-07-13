@@ -1,4 +1,4 @@
-package com.example.android.bakingapp.interfaces;
+package com.example.android.bakingapp.clickHandlers;
 
 import android.view.View;
 

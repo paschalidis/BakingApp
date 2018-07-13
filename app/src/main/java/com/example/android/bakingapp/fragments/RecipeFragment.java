@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.StepAdapter;
-import com.example.android.bakingapp.interfaces.IngredientOnClickHandler;
-import com.example.android.bakingapp.interfaces.StepOnClickHandler;
+import com.example.android.bakingapp.clickHandlers.IngredientOnClickHandler;
+import com.example.android.bakingapp.clickHandlers.StepOnClickHandler;
 import com.example.android.bakingapp.models.Recipe;
 
 /**

@@ -9,8 +9,8 @@ import android.view.View;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.fragments.RecipeDetailFragment;
 import com.example.android.bakingapp.fragments.RecipeFragment;
-import com.example.android.bakingapp.interfaces.IngredientOnClickHandler;
-import com.example.android.bakingapp.interfaces.StepOnClickHandler;
+import com.example.android.bakingapp.clickHandlers.IngredientOnClickHandler;
+import com.example.android.bakingapp.clickHandlers.StepOnClickHandler;
 import com.example.android.bakingapp.models.Recipe;
 import com.example.android.bakingapp.models.Step;
 
