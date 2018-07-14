@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements RecipeOnClickHandler {
 
     public final static String RECIPE_ENTITY = "recipe_entity";
+    private final static int GRAIT_TABLET_COLUMNS = 3;
     private RecipeAdapter mRecipeAdapter;
     private RecyclerView mRecipeRecyclerView;
 
@@ -31,8 +33,13 @@ public class MainActivity extends AppCompatActivity implements RecipeOnClickHand
 
         mRecipeRecyclerView = findViewById(R.id.recipes_recycler_view);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mRecipeRecyclerView.setLayoutManager(layoutManager);
+        if (findViewById(R.id.main_activity_tablet_layout) != null) {
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, GRAIT_TABLET_COLUMNS);
+            mRecipeRecyclerView.setLayoutManager(gridLayoutManager);
+        } else {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            mRecipeRecyclerView.setLayoutManager(layoutManager);
+        }
         mRecipeRecyclerView.setHasFixedSize(true);
 
         mRecipeAdapter = new RecipeAdapter(this, this);
