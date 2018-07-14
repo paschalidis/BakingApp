@@ -27,7 +27,7 @@ public class StepAdapterViewHolder extends RecyclerView.ViewHolder implements Vi
     @Override
     public void onClick(View v) {
         int adapterPosition = getAdapterPosition();
-        mStepClickHandler.onStepClick(mSteps.get(adapterPosition));
+        mStepClickHandler.onStepClick(mSteps.get(adapterPosition), adapterPosition);
     }
 
     public void bind(String recipeTitle) {

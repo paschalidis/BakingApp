@@ -16,10 +16,16 @@ import com.example.android.bakingapp.models.Step;
 
 public class RecipeActivity extends AppCompatActivity implements StepOnClickHandler, IngredientOnClickHandler {
 
-    public static final String STEP_ENTITY = "step_entity";
     public static final String INGREDIENT_ENTITY = "ingredient_entity";
+    public static final String STEP_INDEX = "step_index";
+    public static final String STEP_LIST = "step_list";
+
     private Recipe mRecipe;
-    private boolean mTwoPane;
+    private static boolean mTwoPane;
+
+    public static boolean getTwoPane() {
+        return mTwoPane;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +69,7 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
     }
 
     @Override
-    public void onStepClick(Step step) {
+    public void onStepClick(Step step, int position) {
         if (mTwoPane) {
             RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
             recipeDetailFragment.setStep(step);
@@ -73,7 +79,8 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
                     .commit();
         } else {
             Intent intentToStartRecipeDetailActivity = new Intent(this, RecipeDetailActivity.class);
-            intentToStartRecipeDetailActivity.putExtra(STEP_ENTITY, step);
+            intentToStartRecipeDetailActivity.putExtra(STEP_INDEX, position);
+            intentToStartRecipeDetailActivity.putParcelableArrayListExtra(STEP_LIST, mRecipe.getSteps());
             startActivity(intentToStartRecipeDetailActivity);
         }
     }
