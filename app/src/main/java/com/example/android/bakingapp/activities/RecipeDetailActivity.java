@@ -9,7 +9,8 @@ import android.view.View;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.clickHandlers.StepNavigationOnClickHandler;
-import com.example.android.bakingapp.fragments.RecipeDetailFragment;
+import com.example.android.bakingapp.fragments.RecipeStepFragment;
+import com.example.android.bakingapp.fragments.RecipeIngredientFragment;
 import com.example.android.bakingapp.models.Ingredient;
 import com.example.android.bakingapp.models.Step;
 
@@ -51,21 +52,27 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepNavig
 
         // Only create new fragments when there is no previously saved state
         if (savedInstanceState == null) {
-            RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
             if (mStepList != null) {
-                recipeDetailFragment.setStep(mStepList.get(mCurrentStepIndex));
-                recipeDetailFragment.setLastStepIndex(mStepList.size());
-                recipeDetailFragment.setStepIndex(mCurrentStepIndex);
+                RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
+                recipeStepFragment.setStep(mStepList.get(mCurrentStepIndex));
+                recipeStepFragment.setLastStepIndex(mStepList.size());
+                recipeStepFragment.setStepIndex(mCurrentStepIndex);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.recipe_detail_fragment_container, recipeStepFragment)
+                        .commit();
             }
 
             if (mIngredients != null) {
-                recipeDetailFragment.setIngredients(mIngredients);
-            }
+                RecipeIngredientFragment recipeIngredientFragment = new RecipeIngredientFragment();
+                recipeIngredientFragment.setIngredients(mIngredients);
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .add(R.id.recipe_detail_fragment_container, recipeDetailFragment)
-                    .commit();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.recipe_detail_fragment_container, recipeIngredientFragment)
+                        .commit();
+            }
         } else {
             mCurrentStepIndex = savedInstanceState.getInt(CURRENT_STEP_INDEX);
             mStepList = savedInstanceState.getParcelableArrayList(STEP_LIST);
@@ -76,13 +83,13 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepNavig
     public void onNextClick(View view) {
         mCurrentStepIndex++;
         Step nextStep = mStepList.get(mCurrentStepIndex);
-        RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-        recipeDetailFragment.setStep(nextStep);
-        recipeDetailFragment.setLastStepIndex(mStepList.size());
-        recipeDetailFragment.setStepIndex(mCurrentStepIndex);
+        RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
+        recipeStepFragment.setStep(nextStep);
+        recipeStepFragment.setLastStepIndex(mStepList.size());
+        recipeStepFragment.setStepIndex(mCurrentStepIndex);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.recipe_detail_fragment_container, recipeDetailFragment)
+                .replace(R.id.recipe_detail_fragment_container, recipeStepFragment)
                 .commit();
     }
 
@@ -90,13 +97,13 @@ public class RecipeDetailActivity extends AppCompatActivity implements StepNavig
     public void onPreciousClick(View view) {
         mCurrentStepIndex--;
         Step previousStep = mStepList.get(mCurrentStepIndex);
-        RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-        recipeDetailFragment.setStep(previousStep);
-        recipeDetailFragment.setLastStepIndex(mStepList.size());
-        recipeDetailFragment.setStepIndex(mCurrentStepIndex);
+        RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
+        recipeStepFragment.setStep(previousStep);
+        recipeStepFragment.setLastStepIndex(mStepList.size());
+        recipeStepFragment.setStepIndex(mCurrentStepIndex);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.recipe_detail_fragment_container, recipeDetailFragment)
+                .replace(R.id.recipe_detail_fragment_container, recipeStepFragment)
                 .commit();
     }
 }

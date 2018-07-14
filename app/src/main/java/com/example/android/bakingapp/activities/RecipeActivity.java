@@ -7,10 +7,11 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.fragments.RecipeDetailFragment;
+import com.example.android.bakingapp.fragments.RecipeStepFragment;
 import com.example.android.bakingapp.fragments.RecipeFragment;
 import com.example.android.bakingapp.clickHandlers.IngredientOnClickHandler;
 import com.example.android.bakingapp.clickHandlers.StepOnClickHandler;
+import com.example.android.bakingapp.fragments.RecipeIngredientFragment;
 import com.example.android.bakingapp.models.Recipe;
 import com.example.android.bakingapp.models.Step;
 
@@ -22,10 +23,6 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
 
     private Recipe mRecipe;
     private static boolean mTwoPane;
-
-    public static boolean getTwoPane() {
-        return mTwoPane;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +38,16 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
 
         if (findViewById(R.id.recipe_activity_linear_layout) != null) {
             mTwoPane = true;
-
             // Only create new fragments when there is no previously saved state
             if (savedInstanceState == null) {
-                RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-                recipeDetailFragment.setIngredients(mRecipe.getIngredients());
+                // Set by default ingredient list on tablet
+                RecipeIngredientFragment recipeIngredientFragment = new RecipeIngredientFragment();
+                recipeIngredientFragment.setIngredients(mRecipe.getIngredients());
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .add(R.id.recipe_detail_fragment_container, recipeDetailFragment)
+                        .add(R.id.recipe_detail_fragment_container, recipeIngredientFragment)
                         .commit();
             }
-
         } else {
             mTwoPane = false;
         }
@@ -71,11 +67,11 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
     @Override
     public void onStepClick(Step step, int position) {
         if (mTwoPane) {
-            RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-            recipeDetailFragment.setStep(step);
+            RecipeStepFragment recipeStepFragment = new RecipeStepFragment();
+            recipeStepFragment.setStep(step);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.recipe_detail_fragment_container, recipeDetailFragment)
+                    .replace(R.id.recipe_detail_fragment_container, recipeStepFragment)
                     .commit();
         } else {
             Intent intentToStartRecipeDetailActivity = new Intent(this, RecipeDetailActivity.class);
@@ -88,11 +84,11 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
     @Override
     public void onIngredientClick(View view) {
         if (mTwoPane) {
-            RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-            recipeDetailFragment.setIngredients(mRecipe.getIngredients());
+            RecipeIngredientFragment recipeIngredientFragment = new RecipeIngredientFragment();
+            recipeIngredientFragment.setIngredients(mRecipe.getIngredients());
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.recipe_detail_fragment_container, recipeDetailFragment)
+                    .replace(R.id.recipe_detail_fragment_container, recipeIngredientFragment)
                     .commit();
         } else {
             Intent intentToStartRecipeDetailActivity = new Intent(view.getContext(), RecipeDetailActivity.class);
@@ -101,4 +97,7 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
         }
     }
 
+    public static boolean getTwoPane() {
+        return mTwoPane;
+    }
 }

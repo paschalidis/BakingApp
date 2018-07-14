@@ -16,32 +16,29 @@ import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.activities.RecipeActivity;
-import com.example.android.bakingapp.adapters.IngredientAdapter;
 import com.example.android.bakingapp.clickHandlers.StepNavigationOnClickHandler;
-import com.example.android.bakingapp.models.Ingredient;
 import com.example.android.bakingapp.models.Step;
 
-import java.util.ArrayList;
-
-public class RecipeDetailFragment extends Fragment {
+public class RecipeStepFragment extends Fragment {
 
     public static final String STEP_OBJECT = "step_object";
-    public static final String INGREDIENT_LIST = "ingredient_list";
     public static final String LAST_STEP_INDEX = "last_step_index";
     public static final String STEP_INDEX = "step_index";
 
     // Tag for logging
     private static final String TAG = RecipeFragment.class.getSimpleName();
+    private static int FIRST_STEP_INDEX = 0;
 
     private Step mStep;
     private int mLastStepIndex;
     private int mStepIndex;
-    private ArrayList<Ingredient> mIngredients;
     private boolean mTwoPane;
     private StepNavigationOnClickHandler mStepNavigationOnClickHandler;
 
-    public RecipeDetailFragment() {
+    public RecipeStepFragment() {
         mTwoPane = false;
+        mLastStepIndex = 0;
+        mStepIndex = 0;
     }
 
     @Nullable
@@ -50,7 +47,6 @@ public class RecipeDetailFragment extends Fragment {
 
         if (savedInstanceState != null) {
             mStep = savedInstanceState.getParcelable(STEP_OBJECT);
-            mIngredients = savedInstanceState.getParcelableArrayList(INGREDIENT_LIST);
             mLastStepIndex = savedInstanceState.getInt(LAST_STEP_INDEX);
             mStepIndex = savedInstanceState.getInt(STEP_INDEX);
         }
@@ -80,7 +76,7 @@ public class RecipeDetailFragment extends Fragment {
                     }
                 });
 
-                if (mStepIndex == 0) {
+                if (mStepIndex == FIRST_STEP_INDEX) {
                     previousButton.setVisibility(View.GONE);
                 }
                 previousButton.setOnClickListener(new View.OnClickListener() {
@@ -91,24 +87,8 @@ public class RecipeDetailFragment extends Fragment {
                 });
             }
 
-        } else if (mIngredients != null) {
-            // Inflate the layout for this fragment
-            rootView = inflater.inflate(R.layout.fragment_recipe_ingredient, container, false);
-
-            RecyclerView recyclerView = rootView.findViewById(R.id.recipe_ingredients_recycler_view);
-
-            LinearLayoutManager layoutManager = new LinearLayoutManager(rootView.getContext());
-
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setHasFixedSize(true);
-
-            IngredientAdapter ingredientAdapter = new IngredientAdapter(getContext(), mIngredients);
-
-            recyclerView.setAdapter(ingredientAdapter);
-
-            return rootView;
         } else {
-            Log.v(TAG, "This fragment has a null Step and null Ingredient");
+            Log.v(TAG, "This fragment has a null Step");
         }
 
         return rootView;
@@ -122,10 +102,6 @@ public class RecipeDetailFragment extends Fragment {
         mLastStepIndex = stepListSize - 1;
     }
 
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
-        mIngredients = ingredients;
-    }
-
     public void setStepIndex(int stepIndex) {
         mStepIndex = stepIndex;
     }
@@ -133,7 +109,6 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelable(STEP_OBJECT, mStep);
-        outState.putParcelableArrayList(INGREDIENT_LIST, mIngredients);
         outState.putInt(LAST_STEP_INDEX, mLastStepIndex);
         outState.putInt(STEP_INDEX, mStepIndex);
     }
