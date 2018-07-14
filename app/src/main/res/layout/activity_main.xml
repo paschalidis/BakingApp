@@ -4,4 +4,8 @@
     android:id="@+id/recipes_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:listitem="@layout/recipe_list_item" />
+    android:background="@color/colorPrimaryDark"
+    tools:itemCount="15"
+    tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
+    tools:listitem="@layout/recipe_list_item"
+    tools:orientation="vertical" />

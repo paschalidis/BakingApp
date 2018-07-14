@@ -48,8 +48,8 @@ public class RecipeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_recipe, container, false);
 
         if (mRecipe != null) {
+
             TextView textView = rootView.findViewById(R.id.recipe_ingredients_text_view);
-            textView.setText(mRecipe.getName());
 
             RecyclerView recyclerView = rootView.findViewById(R.id.recipe_steps_recycler_view);
 

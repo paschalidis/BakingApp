@@ -1,13 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:padding="1dp">
 
-    <TextView
-        android:id="@+id/ingredient_item_text_view"
+    <!--<TextView-->
+    <!--android:id="@+id/ingredient_item_text_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:adjustViewBounds="true"-->
+    <!--tools:text="Ingredient"/>-->
+
+    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        tools:text="Ingredient"/>
+        android:layout_height="match_parent"
+        android:background="#da7979">
+
+        <ImageView
+            android:id="@+id/ingredient_ingredient_image_view"
+            android:layout_width="32dp"
+            android:layout_height="59dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/ingredient_ingredient_image_view_description"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="?android:attr/actionModePasteDrawable" />
+
+        <TextView
+            android:id="@+id/ingredient_ingredient_text_view"
+            android:layout_width="268dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:adjustViewBounds="true"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/ingredient_ingredient_image_view"
+            app:layout_constraintTop_toTopOf="@+id/ingredient_ingredient_image_view"
+            tools:text="Graham Cracker crumb" />
+
+        <TextView
+            android:id="@+id/ingredient_measure_label_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:adjustViewBounds="true"
+            android:gravity="center_vertical"
+            android:text="@string/ingredient_measure_label_text_view"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ingredient_ingredient_image_view"
+            app:layout_constraintStart_toStartOf="@+id/ingredient_ingredient_text_view" />
+
+        <TextView
+            android:id="@+id/ingredient_measure_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginStart="8dp"
+            android:adjustViewBounds="true"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ingredient_measure_label_text_view"
+            app:layout_constraintStart_toEndOf="@+id/ingredient_measure_label_text_view"
+            tools:text="CUP" />
+
+        <TextView
+            android:id="@+id/ingredient_quantity_label_text_view"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:adjustViewBounds="true"
+            android:gravity="center_vertical"
+            android:text="@string/ingredient_quantity_label_text_view"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ingredient_measure_text_view"
+            app:layout_constraintEnd_toStartOf="@+id/ingredient_quantity_text_view" />
+
+        <TextView
+            android:id="@+id/ingredient_quantity_text_view"
+            android:layout_width="52dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:adjustViewBounds="true"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ingredient_quantity_label_text_view"
+            app:layout_constraintEnd_toEndOf="@+id/ingredient_ingredient_text_view"
+            tools:text="500" />
+    </android.support.constraint.ConstraintLayout>
 </FrameLayout>

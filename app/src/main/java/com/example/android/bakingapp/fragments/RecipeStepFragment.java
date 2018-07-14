@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,10 +62,17 @@ public class RecipeStepFragment extends Fragment {
             textView.setText(mStep.getDescription());
 
             Button nextButton = rootView.findViewById(R.id.next_step_button);
+            int nextStep = mStepIndex + 1;
+            nextButton.setText("Step " + nextStep);
             Button previousButton = rootView.findViewById(R.id.previous_step_button);
+            int previousStep = mStepIndex - 1;
+            previousButton.setText("Step " + previousStep);
+
             if (mTwoPane) {
                 nextButton.setVisibility(View.GONE);
                 previousButton.setVisibility(View.GONE);
+                View navigationContainer = rootView.findViewById(R.id.step_navigation_container);
+                navigationContainer.setVisibility(View.GONE);
             } else {
                 if (mStepIndex == mLastStepIndex) {
                     nextButton.setVisibility(View.GONE);
