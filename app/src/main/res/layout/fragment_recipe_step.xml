@@ -10,8 +10,8 @@
     android:paddingLeft="2dp"
     android:paddingRight="2dp">
 
-    <ImageView
-        android:id="@+id/step_thumbnail_image"
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/step_player_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
