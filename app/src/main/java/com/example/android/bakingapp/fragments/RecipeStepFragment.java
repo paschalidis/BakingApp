@@ -1,15 +1,17 @@
 package com.example.android.bakingapp.fragments;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,16 +24,16 @@ import com.example.android.bakingapp.activities.RecipeActivity;
 import com.example.android.bakingapp.clickHandlers.StepNavigationOnClickHandler;
 import com.example.android.bakingapp.models.Step;
 import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
 public class RecipeStepFragment extends Fragment {
 
@@ -49,7 +51,7 @@ public class RecipeStepFragment extends Fragment {
     private boolean mTwoPane;
     private StepNavigationOnClickHandler mStepNavigationOnClickHandler;
     private SimpleExoPlayer mExoPlayer;
-    private SimpleExoPlayerView mSimpleExoPlayerView;
+    private PlayerView mPlayerView;
 
     public RecipeStepFragment() {
         mTwoPane = false;
@@ -73,19 +75,22 @@ public class RecipeStepFragment extends Fragment {
             // Inflate the layout for this fragment
             rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
 
-            mSimpleExoPlayerView = rootView.findViewById(R.id.step_player_view);
-            mSimpleExoPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.art_cake));
-            initializePlayer(mStep.getVideoUrl());
+            mPlayerView = rootView.findViewById(R.id.step_player_view);
+
+            mPlayerView.setDefaultArtwork(getBitmap(getContext(), R.drawable.art_cake));
 
             TextView textView = rootView.findViewById(R.id.recipe_detail_description_text_view);
             textView.setText(mStep.getDescription());
 
             Button nextButton = rootView.findViewById(R.id.next_step_button);
             int nextStep = mStepIndex + 1;
-            nextButton.setText("Step " + nextStep);
+            String stepText = getResources().getString(R.string.step_button_text);
+            stepText = stepText + String.valueOf(nextStep);
+            nextButton.setText(stepText);
             Button previousButton = rootView.findViewById(R.id.previous_step_button);
             int previousStep = mStepIndex - 1;
-            previousButton.setText("Step " + previousStep);
+            stepText = stepText + String.valueOf(previousStep);
+            previousButton.setText(stepText);
 
             if (mTwoPane) {
                 nextButton.setVisibility(View.GONE);
@@ -114,6 +119,9 @@ public class RecipeStepFragment extends Fragment {
                 });
             }
 
+            if (!mStep.getVideoUrl().isEmpty()) {
+                initializePlayer(mStep.getVideoUrl());
+            }
         } else {
             Log.v(TAG, "This fragment has a null Step");
         }
@@ -122,26 +130,35 @@ public class RecipeStepFragment extends Fragment {
         return rootView;
     }
 
+    //todo check if ulr is empty
     private void initializePlayer(String videoUrl) {
         if (mExoPlayer == null) {
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
-            mExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
-            mSimpleExoPlayerView.setPlayer(mExoPlayer);
+            DefaultRenderersFactory defaultRenderersFactory = new DefaultRenderersFactory(getContext());
 
-            Uri myUri = Uri.parse(videoUrl);
+            mExoPlayer = ExoPlayerFactory.newSimpleInstance(defaultRenderersFactory, trackSelector, loadControl);
+            mPlayerView.setPlayer(mExoPlayer);
+
+            Uri videoUri = Uri.parse(videoUrl);
             String userAgent = "Step Player";
-            MediaSource mediaSource = new ExtractorMediaSource(myUri, new DefaultDataSourceFactory(getContext(),
-                    userAgent), new DefaultExtractorsFactory(), null, null);
+            //todo check for deprecated
+
+            MediaSource mediaSource = new ExtractorMediaSource.Factory(
+                    new DefaultHttpDataSourceFactory("step-player")
+            ).createMediaSource(videoUri);
+
             mExoPlayer.prepare(mediaSource);
             mExoPlayer.setPlayWhenReady(true);
         }
     }
 
     private void releasePlayer() {
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+        if (mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
     }
 
     @Override
@@ -194,5 +211,25 @@ public class RecipeStepFragment extends Fragment {
             }
         }
 
+    }
+
+    private static Bitmap getBitmap(Context context, int drawableId) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        } else if (drawable instanceof VectorDrawable) {
+            return getBitmap((VectorDrawable) drawable);
+        } else {
+            throw new IllegalArgumentException("unsupported drawable type");
+        }
+    }
+
+    private static Bitmap getBitmap(VectorDrawable vectorDrawable) {
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        vectorDrawable.draw(canvas);
+        return bitmap;
     }
 }
