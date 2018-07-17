@@ -10,15 +10,20 @@ import com.example.android.bakingapp.models.Recipe;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private final TextView mRecipeTextView;
+
+    @BindView(R.id.recipe_item_text_view)
+    TextView mRecipeTextView;
 
     private RecipeOnClickHandler mRecipeOnClickHandler;
     private List<Recipe> mRecipes;
 
     public RecipeAdapterViewHolder(View itemView, RecipeOnClickHandler recipeOnClickHandler, List<Recipe> recipes) {
         super(itemView);
-        mRecipeTextView = (TextView) itemView.findViewById(R.id.recipe_item_text_view);
+        ButterKnife.bind(this, itemView);
         mRecipeOnClickHandler = recipeOnClickHandler;
         mRecipes = recipes;
         itemView.setOnClickListener(this);

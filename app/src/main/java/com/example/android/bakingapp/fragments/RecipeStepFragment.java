@@ -32,7 +32,8 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;;import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class RecipeStepFragment extends Fragment {
 
@@ -50,7 +51,7 @@ public class RecipeStepFragment extends Fragment {
     private boolean mTwoPane;
     private StepNavigationOnClickHandler mStepNavigationOnClickHandler;
     private SimpleExoPlayer mExoPlayer;
-    private PlayerView mPlayerView;
+    @BindView(R.id.step_player_view) PlayerView mPlayerView;
 
     public RecipeStepFragment() {
         mTwoPane = false;
@@ -74,7 +75,7 @@ public class RecipeStepFragment extends Fragment {
             // Inflate the layout for this fragment
             rootView = inflater.inflate(R.layout.fragment_recipe_step, container, false);
 
-            mPlayerView = rootView.findViewById(R.id.step_player_view);
+            ButterKnife.bind(this, rootView);
 
             mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.art_cake));
 

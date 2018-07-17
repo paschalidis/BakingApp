@@ -10,15 +10,20 @@ import com.example.android.bakingapp.models.Step;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class StepAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    private final TextView mStepTextView;
+    @BindView(R.id.recipe_step_text_view)
+    TextView mStepTextView;
+
     private StepOnClickHandler mStepClickHandler;
     private List<Step> mSteps;
 
     public StepAdapterViewHolder(View itemView, StepOnClickHandler stepOnClickHandler, List<Step> steps) {
         super(itemView);
-        mStepTextView = (TextView) itemView.findViewById(R.id.recipe_step_text_view);
+        ButterKnife.bind(this, itemView);
         mStepClickHandler = stepOnClickHandler;
         mSteps = steps;
         itemView.setOnClickListener(this);

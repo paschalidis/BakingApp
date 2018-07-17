@@ -7,17 +7,23 @@ import android.widget.TextView;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.models.Ingredient;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class IngredientAdapterViewHolder extends RecyclerView.ViewHolder {
 
-    private final TextView mIngredientTextView;
-    private final TextView mMeasureTextView;
-    private final TextView mQuantityTextView;
+    @BindView(R.id.ingredient_ingredient_text_view)
+    TextView mIngredientTextView;
+
+    @BindView(R.id.ingredient_measure_text_view)
+    TextView mMeasureTextView;
+
+    @BindView(R.id.ingredient_quantity_text_view)
+    TextView mQuantityTextView;
 
     public IngredientAdapterViewHolder(View itemView) {
         super(itemView);
-        mIngredientTextView = itemView.findViewById(R.id.ingredient_ingredient_text_view);
-        mMeasureTextView = itemView.findViewById(R.id.ingredient_measure_text_view);
-        mQuantityTextView = itemView.findViewById(R.id.ingredient_quantity_text_view);
+        ButterKnife.bind(this, itemView);
 
     }
 

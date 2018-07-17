@@ -19,22 +19,25 @@ import com.example.android.bakingapp.models.Recipe;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements RecipeOnClickHandler {
 
     public final static String RECIPE_ENTITY = "recipe_entity";
     private final static int PORTRAIT_TABLET_COLUMNS = 2;
     private final static int LANDSCAPE_TABLET_COLUMNS = 3;
     private RecipeAdapter mRecipeAdapter;
-    private RecyclerView mRecipeRecyclerView;
 
+    @BindView(R.id.recipes_recycler_view)
+    RecyclerView mRecipeRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecipeRecyclerView = findViewById(R.id.recipes_recycler_view);
-
+        ButterKnife.bind(this);
         //on tablet
         if (findViewById(R.id.main_activity_tablet_layout) != null) {
             int orientation = getResources().getConfiguration().orientation;
