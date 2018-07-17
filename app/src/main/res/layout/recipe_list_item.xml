@@ -12,7 +12,7 @@
         android:background="#da7979">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/recipe_item_image_view"
             android:layout_width="46dp"
             android:layout_height="54dp"
             android:layout_marginStart="24dp"
@@ -31,8 +31,8 @@
             android:gravity="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:textSize="30sp"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/recipe_item_image_view"
+            app:layout_constraintTop_toTopOf="@+id/recipe_item_image_view"
             tools:text="Nutella Pie" />
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

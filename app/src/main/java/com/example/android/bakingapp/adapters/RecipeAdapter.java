@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.adapters.viewHolders.RecipeAdapterViewHolder;
 import com.example.android.bakingapp.clickHandlers.RecipeOnClickHandler;
@@ -39,7 +40,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapterViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecipeAdapterViewHolder holder, int position) {
-        holder.bind(mRecipes.get(position).getName());
+        holder.bind(mRecipes.get(position));
     }
 
     @Override

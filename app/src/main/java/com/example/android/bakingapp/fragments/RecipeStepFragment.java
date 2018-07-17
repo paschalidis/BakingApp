@@ -2,7 +2,9 @@ package com.example.android.bakingapp.fragments;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,7 +34,9 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;;import butterknife.BindView;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;;import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RecipeStepFragment extends Fragment {
@@ -51,7 +55,8 @@ public class RecipeStepFragment extends Fragment {
     private boolean mTwoPane;
     private StepNavigationOnClickHandler mStepNavigationOnClickHandler;
     private SimpleExoPlayer mExoPlayer;
-    @BindView(R.id.step_player_view) PlayerView mPlayerView;
+    @BindView(R.id.step_player_view)
+    PlayerView mPlayerView;
 
     public RecipeStepFragment() {
         mTwoPane = false;
@@ -77,7 +82,28 @@ public class RecipeStepFragment extends Fragment {
 
             ButterKnife.bind(this, rootView);
 
-            mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.art_cake));
+            if (mStep.getThumbnailUrl().isEmpty()) {
+                mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.art_cake));
+            } else {
+                Picasso.get()
+                        .load(mStep.getThumbnailUrl())
+                        .into(new Target() {
+                            @Override
+                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                mPlayerView.setDefaultArtwork(bitmap);
+                            }
+
+                            @Override
+                            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+                            }
+
+                            @Override
+                            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                            }
+                        });
+            }
 
             TextView textView = rootView.findViewById(R.id.recipe_detail_description_text_view);
             textView.setText(mStep.getDescription());

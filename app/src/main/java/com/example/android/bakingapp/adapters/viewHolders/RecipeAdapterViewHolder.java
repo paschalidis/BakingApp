@@ -2,11 +2,13 @@ package com.example.android.bakingapp.adapters.viewHolders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.clickHandlers.RecipeOnClickHandler;
 import com.example.android.bakingapp.models.Recipe;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -17,6 +19,9 @@ public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder implements 
 
     @BindView(R.id.recipe_item_text_view)
     TextView mRecipeTextView;
+
+    @BindView(R.id.recipe_item_image_view)
+    ImageView mRecipeImageView;
 
     private RecipeOnClickHandler mRecipeOnClickHandler;
     private List<Recipe> mRecipes;
@@ -35,7 +40,15 @@ public class RecipeAdapterViewHolder extends RecyclerView.ViewHolder implements 
         mRecipeOnClickHandler.onRecipeClick(mRecipes.get(adapterPosition));
     }
 
-    public void bind(String recipeTitle) {
-        mRecipeTextView.setText(recipeTitle);
+    public void bind(Recipe recipe) {
+        mRecipeTextView.setText(recipe.getName());
+
+        if(!recipe.getImage().isEmpty()){
+            Picasso.get()
+                    .load(recipe.getImage())
+                    .placeholder(R.drawable.art_cake)
+                    .error(R.drawable.art_cake)
+                    .into(mRecipeImageView);
+        }
     }
 }
