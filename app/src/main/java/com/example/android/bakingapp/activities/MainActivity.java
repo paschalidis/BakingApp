@@ -3,6 +3,7 @@ package com.example.android.bakingapp.activities;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,7 +22,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements RecipeOnClickHandler {
 
     public final static String RECIPE_ENTITY = "recipe_entity";
-    private final static int GRAIT_TABLET_COLUMNS = 3;
+    private final static int PORTRAIT_TABLET_COLUMNS = 2;
+    private final static int LANDSCAPE_TABLET_COLUMNS = 3;
     private RecipeAdapter mRecipeAdapter;
     private RecyclerView mRecipeRecyclerView;
 
@@ -33,9 +35,16 @@ public class MainActivity extends AppCompatActivity implements RecipeOnClickHand
 
         mRecipeRecyclerView = findViewById(R.id.recipes_recycler_view);
 
+        //on tablet
         if (findViewById(R.id.main_activity_tablet_layout) != null) {
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, GRAIT_TABLET_COLUMNS);
-            mRecipeRecyclerView.setLayoutManager(gridLayoutManager);
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(this, PORTRAIT_TABLET_COLUMNS);
+                mRecipeRecyclerView.setLayoutManager(gridLayoutManager);
+            } else {
+                GridLayoutManager gridLayoutManager = new GridLayoutManager(this, LANDSCAPE_TABLET_COLUMNS);
+                mRecipeRecyclerView.setLayoutManager(gridLayoutManager);
+            }
         } else {
             LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             mRecipeRecyclerView.setLayoutManager(layoutManager);

@@ -1,17 +1,21 @@
 package com.example.android.bakingapp.fragments;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Constraints;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
@@ -112,6 +116,11 @@ public class RecipeStepFragment extends Fragment {
                         mStepNavigationOnClickHandler.onPreciousClick(v);
                     }
                 });
+                int orientation = getActivity().getResources().getConfiguration().orientation;
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    mPlayerView.setLayoutParams(layoutParams);
+                }
             }
 
             initializePlayer(mStep.getVideoUrl());
