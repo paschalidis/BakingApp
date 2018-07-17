@@ -1,17 +1,12 @@
 package com.example.android.bakingapp.fragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.VectorDrawable;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +28,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;;
 
 public class RecipeStepFragment extends Fragment {
 
@@ -77,20 +72,20 @@ public class RecipeStepFragment extends Fragment {
 
             mPlayerView = rootView.findViewById(R.id.step_player_view);
 
-            mPlayerView.setDefaultArtwork(getBitmap(getContext(), R.drawable.art_cake));
+            mPlayerView.setDefaultArtwork(BitmapFactory.decodeResource(getResources(), R.drawable.art_cake));
 
             TextView textView = rootView.findViewById(R.id.recipe_detail_description_text_view);
             textView.setText(mStep.getDescription());
 
             Button nextButton = rootView.findViewById(R.id.next_step_button);
             int nextStep = mStepIndex + 1;
-            String stepText = getResources().getString(R.string.step_button_text);
-            stepText = stepText + String.valueOf(nextStep);
-            nextButton.setText(stepText);
+            String nextStepText = getResources().getString(R.string.step_button_text, nextStep);
+            nextButton.setText(nextStepText);
+
             Button previousButton = rootView.findViewById(R.id.previous_step_button);
             int previousStep = mStepIndex - 1;
-            stepText = stepText + String.valueOf(previousStep);
-            previousButton.setText(stepText);
+            String previousStepText = getResources().getString(R.string.step_button_text, previousStep);
+            previousButton.setText(previousStepText);
 
             if (mTwoPane) {
                 nextButton.setVisibility(View.GONE);
@@ -119,9 +114,7 @@ public class RecipeStepFragment extends Fragment {
                 });
             }
 
-            if (!mStep.getVideoUrl().isEmpty()) {
-                initializePlayer(mStep.getVideoUrl());
-            }
+            initializePlayer(mStep.getVideoUrl());
         } else {
             Log.v(TAG, "This fragment has a null Step");
         }
@@ -130,9 +123,8 @@ public class RecipeStepFragment extends Fragment {
         return rootView;
     }
 
-    //todo check if ulr is empty
     private void initializePlayer(String videoUrl) {
-        if (mExoPlayer == null) {
+        if (mExoPlayer == null && getContext() != null) {
             TrackSelector trackSelector = new DefaultTrackSelector();
             LoadControl loadControl = new DefaultLoadControl();
             DefaultRenderersFactory defaultRenderersFactory = new DefaultRenderersFactory(getContext());
@@ -141,12 +133,11 @@ public class RecipeStepFragment extends Fragment {
             mPlayerView.setPlayer(mExoPlayer);
 
             Uri videoUri = Uri.parse(videoUrl);
-            String userAgent = "Step Player";
-            //todo check for deprecated
+            String userAgent = com.google.android.exoplayer2.util.Util.getUserAgent(getContext(), "BakingApp");
 
-            MediaSource mediaSource = new ExtractorMediaSource.Factory(
-                    new DefaultHttpDataSourceFactory("step-player")
-            ).createMediaSource(videoUri);
+            DefaultDataSourceFactory defaultDataSourceFactory = new DefaultDataSourceFactory(getContext(), userAgent);
+            MediaSource mediaSource = new ExtractorMediaSource.Factory(defaultDataSourceFactory)
+                    .createMediaSource(videoUri);
 
             mExoPlayer.prepare(mediaSource);
             mExoPlayer.setPlayWhenReady(true);
@@ -167,17 +158,17 @@ public class RecipeStepFragment extends Fragment {
         releasePlayer();
     }
 
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        releasePlayer();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        releasePlayer();
-//    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        releasePlayer();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        releasePlayer();
+    }
 
     public void setStep(Step step) {
         mStep = step;
@@ -211,25 +202,5 @@ public class RecipeStepFragment extends Fragment {
             }
         }
 
-    }
-
-    private static Bitmap getBitmap(Context context, int drawableId) {
-        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        } else if (drawable instanceof VectorDrawable) {
-            return getBitmap((VectorDrawable) drawable);
-        } else {
-            throw new IllegalArgumentException("unsupported drawable type");
-        }
-    }
-
-    private static Bitmap getBitmap(VectorDrawable vectorDrawable) {
-        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
-                vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        vectorDrawable.draw(canvas);
-        return bitmap;
     }
 }

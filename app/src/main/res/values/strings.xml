@@ -4,5 +4,5 @@
     <string name="ingredient_measure_label_text_view">Measure:</string>
     <string name="ingredient_ingredient_image_view_description">Ingredient</string>
     <string name="ingredient_quantity_label_text_view">Quantity:</string>
-    <string name="step_button_text">Step</string>
+    <string name="step_button_text">Step %d</string>
 </resources>
