@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.RecipeWidgetService;
 import com.example.android.bakingapp.fragments.RecipeStepFragment;
 import com.example.android.bakingapp.fragments.RecipeFragment;
 import com.example.android.bakingapp.clickHandlers.IngredientOnClickHandler;
@@ -33,6 +34,7 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra(MainActivity.RECIPE_ENTITY)) {
                 mRecipe = intentThatStartedThisActivity.getParcelableExtra(MainActivity.RECIPE_ENTITY);
+                RecipeWidgetService.startActionUpdateRecipeWidget(this, mRecipe);
             }
         }
 

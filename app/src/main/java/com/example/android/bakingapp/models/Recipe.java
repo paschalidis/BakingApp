@@ -29,6 +29,15 @@ public class Recipe implements Parcelable {
     @SerializedName(ApiUtilities.RECIPE_IMAGE)
     private String mImage;
 
+    public Recipe() {
+        this.mId = 0;
+        this.mName = "";
+        this.mIngredients = new ArrayList<>();
+        this.mSteps = new ArrayList<>();
+        this.mServings = "";
+        this.mImage = "";
+    }
+
     public Recipe(int id, String name, ArrayList<Ingredient> ingredients, ArrayList<Step> steps, String servings, String image) {
         this.mId = id;
         this.mName = name;
@@ -41,11 +50,11 @@ public class Recipe implements Parcelable {
     private Recipe(Parcel in) {
         mId = in.readInt();
         mName = in.readString();
-        if(mIngredients == null){
+        if (mIngredients == null) {
             mIngredients = new ArrayList<>();
         }
         in.readTypedList(mIngredients, Ingredient.CREATOR);
-        if(mSteps == null){
+        if (mSteps == null) {
             mSteps = new ArrayList<>();
         }
         in.readTypedList(mSteps, Step.CREATOR);
