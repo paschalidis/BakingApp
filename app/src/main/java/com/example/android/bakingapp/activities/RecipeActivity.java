@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.android.bakingapp.R;
@@ -34,7 +36,6 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra(MainActivity.RECIPE_ENTITY)) {
                 mRecipe = intentThatStartedThisActivity.getParcelableExtra(MainActivity.RECIPE_ENTITY);
-                RecipeWidgetService.startActionUpdateRecipeWidget(this, mRecipe);
             }
         }
 
@@ -62,6 +63,10 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
             fragmentManager.beginTransaction()
                     .add(R.id.recipe_fragment_container, recipeFragment)
                     .commit();
+        }
+
+        if(!mRecipe.getName().isEmpty()){
+            setTitle(mRecipe.getName());
         }
 
     }
@@ -97,6 +102,20 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
             intentToStartRecipeDetailActivity.putParcelableArrayListExtra(INGREDIENT_ENTITY, mRecipe.getIngredients());
             startActivity(intentToStartRecipeDetailActivity);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.recipe_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.add_to_widget_action) {
+            RecipeWidgetService.startActionUpdateRecipeWidget(this, mRecipe);
+        }
+        return true;
     }
 
     public static boolean getTwoPane() {

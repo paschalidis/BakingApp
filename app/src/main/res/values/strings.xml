@@ -6,5 +6,5 @@
     <string name="ingredient_quantity_label_text_view">Quantity:</string>
     <string name="step_button_text">Step %d</string>
     <string name="appwidget_text">Recipe Ingredients</string>
-    <string name="add_widget">Add widget</string>
+    <string name="show_to_widget">Show to widget</string>
 </resources>
