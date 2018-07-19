@@ -20,9 +20,8 @@ import com.example.android.bakingapp.models.Step;
 
 public class RecipeActivity extends AppCompatActivity implements StepOnClickHandler, IngredientOnClickHandler {
 
-    public static final String INGREDIENT_ENTITY = "ingredient_entity";
     public static final String STEP_INDEX = "step_index";
-    public static final String STEP_LIST = "step_list";
+    public static final String RECIPE_ENTITY = "recipe_entity";
 
     private Recipe mRecipe;
     private static boolean mTwoPane;
@@ -65,10 +64,9 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
                     .commit();
         }
 
-        if(!mRecipe.getName().isEmpty()){
+        if (mRecipe != null && !mRecipe.getName().isEmpty()) {
             setTitle(mRecipe.getName());
         }
-
     }
 
     @Override
@@ -83,7 +81,7 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
         } else {
             Intent intentToStartRecipeDetailActivity = new Intent(this, RecipeDetailActivity.class);
             intentToStartRecipeDetailActivity.putExtra(STEP_INDEX, position);
-            intentToStartRecipeDetailActivity.putParcelableArrayListExtra(STEP_LIST, mRecipe.getSteps());
+            intentToStartRecipeDetailActivity.putExtra(RECIPE_ENTITY, mRecipe);
             startActivity(intentToStartRecipeDetailActivity);
         }
     }
@@ -99,7 +97,7 @@ public class RecipeActivity extends AppCompatActivity implements StepOnClickHand
                     .commit();
         } else {
             Intent intentToStartRecipeDetailActivity = new Intent(view.getContext(), RecipeDetailActivity.class);
-            intentToStartRecipeDetailActivity.putParcelableArrayListExtra(INGREDIENT_ENTITY, mRecipe.getIngredients());
+            intentToStartRecipeDetailActivity.putExtra(RECIPE_ENTITY, mRecipe);
             startActivity(intentToStartRecipeDetailActivity);
         }
     }

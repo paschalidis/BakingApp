@@ -4,5 +4,5 @@ import android.view.View;
 
 public interface StepNavigationOnClickHandler {
     void onNextClick(View view);
-    void onPreciousClick(View view);
+    void onPreviousClick(View view);
 }

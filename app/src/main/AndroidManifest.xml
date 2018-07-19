@@ -12,15 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/activity_main_label">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.RecipeActivity" />
-        <activity android:name=".activities.RecipeDetailActivity" />
+        <activity
+            android:name=".activities.RecipeActivity"
+            android:label="@string/activity_recipe_label" />
+        <activity
+            android:name=".activities.RecipeDetailActivity"
+            android:label="@string/activity_recipe_details_label" />
 
         <receiver android:name=".RecipeWidgetProvider">
             <intent-filter>
@@ -34,7 +40,7 @@
 
         <service
             android:name=".RecipeWidgetService"
-            android:exported="false"></service>
+            android:exported="false" />
     </application>
 
 </manifest>

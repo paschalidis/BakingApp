@@ -4,6 +4,6 @@
     <item
         android:id="@+id/add_to_widget_action"
         android:orderInCategory="1"
-        android:title="@string/show_to_widget"
+        android:title="@string/add_to_widget"
         app:showAsAction="ifRoom" />
 </menu>
