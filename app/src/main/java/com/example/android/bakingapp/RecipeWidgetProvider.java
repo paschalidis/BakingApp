@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.example.android.bakingapp.activities.MainActivity;
+import com.example.android.bakingapp.activities.RecipeDetailActivity;
 import com.example.android.bakingapp.models.Recipe;
 
 /**
@@ -21,16 +22,20 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
 
-        if (!recipe.getName().isEmpty()) {
+        Intent intent;
+        if(recipe.getId() == 0){
+            intent = new Intent(context, MainActivity.class);
+            views.setTextViewText(R.id.appwidget_text, widgetText);
+        } else {
             views.setTextViewText(R.id.appwidget_text, recipe.getName());
+            intent = new Intent(context, RecipeDetailActivity.class);
+            intent.putExtra(MainActivity.RECIPE_ENTITY, recipe);
         }
 
-        Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        views.setOnClickPendingIntent(R.id.appwidget_text, pendingIntent);
+        views.setOnClickPendingIntent(R.id.recipe_widget_provider, pendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
