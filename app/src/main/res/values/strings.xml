@@ -8,7 +8,9 @@
     <string name="ingredient_ingredient_image_view_description">Ingredient</string>
     <string name="ingredient_quantity_label_text_view">Quantity:</string>
     <string name="step_button_text">Step %d</string>
-    <string name="appwidget_text">Recipe Ingredients</string>
+    <string name="appwidget_text">Add Recipe</string>
+    <string name="widget_resize_text">Resize width</string>
+    <string name="widget_list_label">Recipe Ingredients</string>
     <string name="add_to_widget">Add to widget</string>
     <string name="widget_empty_ingredients">Empty Ingredients</string>
 </resources>

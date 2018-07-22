@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:background="#da7979">
 
     <TextView
         android:id="@+id/widget_ingredient_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        tools:text="Ingerdient"/>
-</LinearLayout>
+        android:adjustViewBounds="true"
+        android:padding="6dp"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        tools:text="Graham Cracker crumb" />
+
+    <TextView
+        android:id="@+id/widget_quantity_text_view"
+        android:layout_width="wrap_content"
+        android:padding="6dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/widget_ingredient_text_view"
+        android:adjustViewBounds="true"
+        tools:text="500" />
+
+    <TextView
+        android:id="@+id/widget_measure_text_view"
+        android:layout_width="wrap_content"
+        android:padding="6dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/widget_ingredient_text_view"
+        android:layout_toEndOf="@+id/widget_quantity_text_view"
+        android:adjustViewBounds="true"
+        tools:text="CUP" />
+
+</RelativeLayout>

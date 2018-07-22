@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/app_widget_list_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#09C"
+        android:contentDescription="@string/widget_list_label"
+        android:gravity="center_horizontal"
+        android:text="@string/widget_list_label"
+        android:textColor="#ffffff"
+        android:textSize="24sp"
+        android:textStyle="bold|italic" />
 
     <ListView
-        android:id="@+id/widget_list_recipe_ingredient"
+        android:id="@+id/widget_recipe_ingredient_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/recipe_ingredient_list_item"/>
+        tools:listitem="@layout/widget_ingredient_item_view" />
 
     <RelativeLayout
         android:id="@+id/empty_view"
@@ -26,4 +40,4 @@
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
-</FrameLayout>
+</LinearLayout>

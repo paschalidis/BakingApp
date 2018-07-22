@@ -8,10 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.activities.MainActivity;
+import com.example.android.bakingapp.activities.RecipeActivity;
 import com.example.android.bakingapp.activities.RecipeDetailActivity;
 import com.example.android.bakingapp.models.Recipe;
 
@@ -22,6 +24,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     public static String BUNDLE_EXTRA = "bundle_extra";
     public static Recipe mRecipe;
+    private final static int MAX_RECIPE_SINGLE_WIDGET_VIEW = 200;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
@@ -30,7 +33,8 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
         int width = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
         RemoteViews remoteViews;
-        if (width < 300) {
+
+        if (width < MAX_RECIPE_SINGLE_WIDGET_VIEW) {
             remoteViews = getRecipeView(context);
         } else {
             remoteViews = getIngredientListView(context);
@@ -43,7 +47,6 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
         RecipeWidgetService.startActionUpdateRecipeWidget(context, mRecipe);
-        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
     }
 
     private static RemoteViews getRecipeView(Context context) {
@@ -51,6 +54,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
+        views.setViewVisibility(R.id.widget_resize_text, View.GONE);
 
         Intent intent;
         if (mRecipe == null) {
@@ -58,7 +62,8 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
             views.setTextViewText(R.id.appwidget_text, widgetText);
         } else {
             views.setTextViewText(R.id.appwidget_text, mRecipe.getName());
-            intent = new Intent(context, RecipeDetailActivity.class);
+            views.setViewVisibility(R.id.widget_resize_text, View.VISIBLE);
+            intent = new Intent(context, RecipeActivity.class);
             intent.putExtra(MainActivity.RECIPE_ENTITY, mRecipe);
         }
 
@@ -80,15 +85,16 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
         intent.putExtra(BUNDLE_EXTRA, bundle);
 
-        views.setRemoteAdapter(R.id.widget_list_recipe_ingredient, intent);
+        views.setRemoteAdapter(R.id.widget_recipe_ingredient_list, intent);
 
-        Intent appIntent = new Intent(context, RecipeDetailActivity.class);
+        Intent appIntent = new Intent(context, RecipeActivity.class);
         appIntent.putExtra(MainActivity.RECIPE_ENTITY, mRecipe);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        views.setPendingIntentTemplate(R.id.widget_list_recipe_ingredient, pendingIntent);
+        views.setTextViewText(R.id.app_widget_list_text_view, mRecipe.getName());
+        views.setOnClickPendingIntent(R.id.app_widget_list_text_view, pendingIntent);
 
-        views.setEmptyView(R.id.widget_list_recipe_ingredient, R.id.empty_view);
+        views.setEmptyView(R.id.widget_recipe_ingredient_list, R.id.empty_view);
 
         return views;
     }

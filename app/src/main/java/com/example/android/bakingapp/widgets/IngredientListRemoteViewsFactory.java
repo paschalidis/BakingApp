@@ -57,9 +57,8 @@ public class IngredientListRemoteViewsFactory implements RemoteViewsService.Remo
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.widget_ingredient_item_view);
 
         views.setTextViewText(R.id.widget_ingredient_text_view, ingredient.getIngredient());
-//        views.setTextViewText(R.id.ingredient_measure_text_view, ingredient.getMeasure());
-//        views.setTextViewText(R.id.ingredient_quantity_text_view, ingredient.getQuantity());
-
+        views.setTextViewText(R.id.widget_quantity_text_view, ingredient.getQuantity());
+        views.setTextViewText(R.id.widget_measure_text_view, ingredient.getMeasure());
 
         return views;
     }
@@ -82,10 +81,6 @@ public class IngredientListRemoteViewsFactory implements RemoteViewsService.Remo
     @Override
     public boolean hasStableIds() {
         return false;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        mRecipe = recipe;
     }
 }
 
