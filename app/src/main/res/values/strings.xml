@@ -10,4 +10,5 @@
     <string name="step_button_text">Step %d</string>
     <string name="appwidget_text">Recipe Ingredients</string>
     <string name="add_to_widget">Add to widget</string>
+    <string name="widget_empty_ingredients">Empty Ingredients</string>
 </resources>

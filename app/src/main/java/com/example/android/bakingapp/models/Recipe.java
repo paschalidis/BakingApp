@@ -7,7 +7,6 @@ import com.example.android.bakingapp.recipeApi.ApiUtilities;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Recipe implements Parcelable {
 
@@ -28,15 +27,6 @@ public class Recipe implements Parcelable {
 
     @SerializedName(ApiUtilities.RECIPE_IMAGE)
     private String mImage;
-
-    public Recipe() {
-        this.mId = 0;
-        this.mName = "";
-        this.mIngredients = new ArrayList<>();
-        this.mSteps = new ArrayList<>();
-        this.mServings = "";
-        this.mImage = "";
-    }
 
     public Recipe(int id, String name, ArrayList<Ingredient> ingredients, ArrayList<Step> steps, String servings, String image) {
         this.mId = id;

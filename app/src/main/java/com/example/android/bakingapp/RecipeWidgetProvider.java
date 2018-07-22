@@ -19,17 +19,20 @@ import com.example.android.bakingapp.models.Recipe;
  */
 public class RecipeWidgetProvider extends AppWidgetProvider {
 
+    public static String BUNDLE_EXTRA = "bundle_extra";
+    public static Recipe mRecipe;
+
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId, Recipe recipe) {
+                                int appWidgetId) {
 
         Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
         int width = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
         RemoteViews remoteViews;
-        if(width < 300) {
-            remoteViews = getRecipeView(context, recipe);
-        } else  {
-            remoteViews = getIngredientListView(context, recipe);
+        if (width < 300) {
+            remoteViews = getRecipeView(context);
+        } else {
+            remoteViews = getIngredientListView(context);
         }
 
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
@@ -38,24 +41,24 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        RecipeWidgetService.startActionUpdateRecipeWidget(context, new Recipe());
+        RecipeWidgetService.startActionUpdateRecipeWidget(context, mRecipe);
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
     }
 
-    private static RemoteViews getRecipeView(Context context, Recipe recipe) {
+    private static RemoteViews getRecipeView(Context context) {
 
         CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget_provider);
 
         Intent intent;
-        if (recipe.getId() == 0) {
+        if (mRecipe == null) {
             intent = new Intent(context, MainActivity.class);
             views.setTextViewText(R.id.appwidget_text, widgetText);
         } else {
-            views.setTextViewText(R.id.appwidget_text, recipe.getName());
+            views.setTextViewText(R.id.appwidget_text, mRecipe.getName());
             intent = new Intent(context, RecipeDetailActivity.class);
-            intent.putExtra(MainActivity.RECIPE_ENTITY, recipe);
+            intent.putExtra(MainActivity.RECIPE_ENTITY, mRecipe);
         }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -65,21 +68,21 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         return views;
     }
 
-    private static RemoteViews getIngredientListView(Context context, Recipe recipe) {
+    private static RemoteViews getIngredientListView(Context context) {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_list_recipe_ingredient);
 
         Intent intent = new Intent(context, IngredientListWidgetService.class);
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(MainActivity.RECIPE_ENTITY, recipe);
+        bundle.putParcelable(MainActivity.RECIPE_ENTITY, mRecipe);
 
-        intent.putExtra("bundle", bundle);
+        intent.putExtra(BUNDLE_EXTRA, bundle);
 
         views.setRemoteAdapter(R.id.widget_list_recipe_ingredient, intent);
 
         Intent appIntent = new Intent(context, RecipeDetailActivity.class);
-        appIntent.putExtra(MainActivity.RECIPE_ENTITY, recipe);
+        appIntent.putExtra(MainActivity.RECIPE_ENTITY, mRecipe);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         views.setPendingIntentTemplate(R.id.widget_list_recipe_ingredient, pendingIntent);
@@ -91,16 +94,15 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     public static void onUpdateRecipeWidget(Context context, AppWidgetManager appWidgetManager,
                                             int[] appWidgetIds, Recipe recipe) {
+        mRecipe = recipe;
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, recipe);
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // There may be multiple widgets active, so update all of them
-        //todo check if is update every 30 minutes and set it to default
-        RecipeWidgetService.startActionUpdateRecipeWidget(context, new Recipe());
+        RecipeWidgetService.startActionUpdateRecipeWidget(context, mRecipe);
     }
 
     @Override
