@@ -1,4 +1,4 @@
-package com.example.android.bakingapp;
+package com.example.android.bakingapp.widgets;
 
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 
+import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.activities.MainActivity;
 import com.example.android.bakingapp.activities.RecipeDetailActivity;
 import com.example.android.bakingapp.models.Recipe;

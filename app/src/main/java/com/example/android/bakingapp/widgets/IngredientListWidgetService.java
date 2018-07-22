@@ -1,4 +1,4 @@
-package com.example.android.bakingapp;
+package com.example.android.bakingapp.widgets;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;

@@ -1,4 +1,4 @@
-package com.example.android.bakingapp;
+package com.example.android.bakingapp.widgets;
 
 import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.Context;
 
+import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.models.Recipe;
 
 /**

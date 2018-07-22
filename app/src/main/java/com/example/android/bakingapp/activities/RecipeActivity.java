@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.android.bakingapp.R;
-import com.example.android.bakingapp.RecipeWidgetService;
+import com.example.android.bakingapp.widgets.RecipeWidgetService;
 import com.example.android.bakingapp.fragments.RecipeStepFragment;
 import com.example.android.bakingapp.fragments.RecipeFragment;
 import com.example.android.bakingapp.clickHandlers.IngredientOnClickHandler;
