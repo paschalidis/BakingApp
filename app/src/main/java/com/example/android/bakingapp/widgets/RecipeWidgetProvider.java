@@ -14,7 +14,6 @@ import android.widget.RemoteViews;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.activities.MainActivity;
 import com.example.android.bakingapp.activities.RecipeActivity;
-import com.example.android.bakingapp.activities.RecipeDetailActivity;
 import com.example.android.bakingapp.models.Recipe;
 
 /**
