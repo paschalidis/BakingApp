@@ -30,7 +30,7 @@ public class IngredientListRemoteViewsFactory implements RemoteViewsService.Remo
 
     @Override
     public void onDataSetChanged() {
-        mRecipe = RecipeWidgetProvider.mRecipe;
+        mRecipe = RecipeWidgetProvider.getRecipe(mContext);
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,12 +16,18 @@ import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.activities.MainActivity;
 import com.example.android.bakingapp.activities.RecipeActivity;
 import com.example.android.bakingapp.models.Recipe;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class RecipeWidgetProvider extends AppWidgetProvider {
 
+    public static String SHARED_PREFERENCE_NAME = "shared_preference";
+    public static String JSON_RECIPE_KEY = "json_recipe";
     public static String BUNDLE_EXTRA = "bundle_extra";
     public static Recipe mRecipe;
     private final static int MAX_RECIPE_SINGLE_WIDGET_VIEW = 200;
@@ -45,7 +52,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        RecipeWidgetService.startActionUpdateRecipeWidget(context, mRecipe);
+        RecipeWidgetService.startActionUpdateRecipeWidget(context, getRecipe(context));
     }
 
     private static RemoteViews getRecipeView(Context context) {
@@ -56,14 +63,14 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         views.setViewVisibility(R.id.widget_resize_text, View.GONE);
 
         Intent intent;
-        if (mRecipe == null) {
+        if (getRecipe(context) == null) {
             intent = new Intent(context, MainActivity.class);
             views.setTextViewText(R.id.appwidget_text, widgetText);
         } else {
-            views.setTextViewText(R.id.appwidget_text, mRecipe.getName());
+            views.setTextViewText(R.id.appwidget_text, getRecipe(context).getName());
             views.setViewVisibility(R.id.widget_resize_text, View.VISIBLE);
             intent = new Intent(context, RecipeActivity.class);
-            intent.putExtra(MainActivity.RECIPE_ENTITY, mRecipe);
+            intent.putExtra(MainActivity.RECIPE_ENTITY, getRecipe(context));
         }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -78,19 +85,26 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_list_recipe_ingredient);
 
         Intent intent = new Intent(context, IngredientListWidgetService.class);
-
         Bundle bundle = new Bundle();
-        bundle.putParcelable(MainActivity.RECIPE_ENTITY, mRecipe);
-
+        bundle.putParcelable(MainActivity.RECIPE_ENTITY, getRecipe(context));
         intent.putExtra(BUNDLE_EXTRA, bundle);
 
         views.setRemoteAdapter(R.id.widget_recipe_ingredient_list, intent);
 
-        Intent appIntent = new Intent(context, RecipeActivity.class);
-        appIntent.putExtra(MainActivity.RECIPE_ENTITY, mRecipe);
+        Intent appIntent;
+        if(getRecipe(context) == null){
+            appIntent = new Intent(context, MainActivity.class);
+            CharSequence widgetText = context.getString(R.string.appwidget_text);
+            views.setTextViewText(R.id.app_widget_list_text_view, widgetText);
+
+        } else {
+            appIntent = new Intent(context, RecipeActivity.class);
+            appIntent.putExtra(MainActivity.RECIPE_ENTITY, getRecipe(context));
+            views.setTextViewText(R.id.app_widget_list_text_view, getRecipe(context).getName());
+        }
+
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        views.setTextViewText(R.id.app_widget_list_text_view, mRecipe.getName());
         views.setOnClickPendingIntent(R.id.app_widget_list_text_view, pendingIntent);
 
         views.setEmptyView(R.id.widget_recipe_ingredient_list, R.id.empty_view);
@@ -100,7 +114,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     public static void onUpdateRecipeWidget(Context context, AppWidgetManager appWidgetManager,
                                             int[] appWidgetIds, Recipe recipe) {
-        mRecipe = recipe;
+        setRecipe(context, recipe);
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
@@ -108,7 +122,7 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        RecipeWidgetService.startActionUpdateRecipeWidget(context, mRecipe);
+        RecipeWidgetService.startActionUpdateRecipeWidget(context, getRecipe(context));
     }
 
     @Override
@@ -119,6 +133,33 @@ public class RecipeWidgetProvider extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+
+    public static void setRecipe(Context context, Recipe recipe){
+        mRecipe = recipe;
+        if(mRecipe != null){
+            SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+            Gson gson = new Gson();
+            String jsonRecipe = gson.toJson(recipe);
+
+            preferences.edit().putString(JSON_RECIPE_KEY, jsonRecipe).apply();
+        }
+    }
+
+    public static Recipe getRecipe(Context context){
+
+        if(mRecipe != null){
+            return mRecipe;
+        }
+
+        SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String jsonRecipe = preferences.getString(JSON_RECIPE_KEY, null);
+        Type typeRecipe = new TypeToken<Recipe>(){}.getType();
+        mRecipe = gson.fromJson(jsonRecipe, typeRecipe);
+        //Check shared preference
+
+        return mRecipe;
     }
 }
 
