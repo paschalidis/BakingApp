@@ -9,13 +9,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import android.support.test.espresso.contrib.RecyclerViewActions;
+
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityRecyclerViewTest {
+public class MainActivityTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule =
@@ -25,6 +28,15 @@ public class MainActivityRecyclerViewTest {
     public void viewContainRecyclerView(){
 
         onView(withId(R.id.recipes_recycler_view))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void clickRecyclerViewItem() {
+        onView(withId(R.id.recipes_recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        onView(withId(R.id.recipe_ingredients_text_view))
                 .check(matches(isDisplayed()));
     }
 }
