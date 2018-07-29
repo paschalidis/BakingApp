@@ -10,7 +10,7 @@
     <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#d21da5">
+        android:background="@color/fragment_recipe_ingredients_bg_color">
 
         <TextView
             android:id="@+id/recipe_ingredients_text_view"

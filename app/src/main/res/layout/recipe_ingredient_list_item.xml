@@ -9,7 +9,7 @@
     <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#da7979">
+        android:background="@color/list_item_bg_color">
 
         <ImageView
             android:id="@+id/ingredient_ingredient_image_view"
