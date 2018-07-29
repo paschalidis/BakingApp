@@ -14,14 +14,12 @@
 
         <TextView
             android:id="@+id/recipe_ingredients_text_view"
+            style="@style/GeneralTextViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="63dp"
-            android:layout_marginStart="16dp"
-            android:adjustViewBounds="true"
-            android:gravity="center_vertical"
+            android:layout_height="@dimen/recipe_fragment_list_item_height"
+            android:layout_marginStart="@dimen/margin_large"
             android:text="@string/ingredients_text"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="24sp"
+            android:textSize="@dimen/text_extra_large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>

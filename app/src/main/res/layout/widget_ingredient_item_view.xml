@@ -10,15 +10,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:padding="6dp"
+        android:padding="@dimen/padding_large"
         android:gravity="center_vertical"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_medium"
         tools:text="Graham Cracker crumb" />
 
     <TextView
         android:id="@+id/widget_quantity_text_view"
         android:layout_width="wrap_content"
-        android:padding="6dp"
+        android:padding="@dimen/padding_large"
         android:layout_height="wrap_content"
         android:layout_below="@+id/widget_ingredient_text_view"
         android:adjustViewBounds="true"
@@ -27,7 +27,7 @@
     <TextView
         android:id="@+id/widget_measure_text_view"
         android:layout_width="wrap_content"
-        android:padding="6dp"
+        android:padding="@dimen/padding_large"
         android:layout_height="wrap_content"
         android:layout_below="@id/widget_ingredient_text_view"
         android:layout_toEndOf="@+id/widget_quantity_text_view"

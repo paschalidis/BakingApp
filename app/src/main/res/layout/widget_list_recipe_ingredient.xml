@@ -14,8 +14,8 @@
         android:contentDescription="@string/widget_list_label"
         android:gravity="center_horizontal"
         android:text="@string/widget_list_label"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_extra_large"
         android:textStyle="bold|italic" />
 
     <ListView
@@ -36,8 +36,8 @@
             android:layout_centerInParent="true"
             android:text="@string/widget_empty_ingredients"
             android:textAlignment="center"
-            android:textColor="#ffffff"
-            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_large"
             android:textStyle="bold" />
     </RelativeLayout>
 </LinearLayout>

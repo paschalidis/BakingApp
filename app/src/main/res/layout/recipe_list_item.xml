@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="1dp">
+    android:padding="@dimen/padding_min">
 
     <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -13,24 +13,22 @@
 
         <ImageView
             android:id="@+id/recipe_item_image_view"
-            android:layout_width="46dp"
-            android:layout_height="54dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="@dimen/recipe_item_image_width"
+            android:layout_height="@dimen/recipe_item_image_height"
+            android:layout_marginStart="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/art_cake" />
 
         <TextView
             android:id="@+id/recipe_item_text_view"
+            style="@style/GeneralTextViewStyle"
+            android:textSize="@dimen/text_double_extra_large"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="4dp"
-            android:adjustViewBounds="true"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="30sp"
+            android:layout_marginStart="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_extra_small"
             app:layout_constraintStart_toEndOf="@+id/recipe_item_image_view"
             app:layout_constraintTop_toTopOf="@+id/recipe_item_image_view"
             tools:text="Nutella Pie" />

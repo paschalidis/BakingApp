@@ -1,63 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@color/colorPrimaryDark"
-android:orientation="vertical"
-android:padding="5dp"
-android:paddingLeft="2dp"
-android:paddingRight="2dp">
-
-<com.google.android.exoplayer2.ui.PlayerView
-    android:id="@+id/step_player_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:paddingBottom="5dp"
-    app:srcCompat="@drawable/art_cake" />
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_large"
+    android:paddingLeft="@dimen/padding_medium"
+    android:paddingRight="@dimen/padding_medium">
 
-<TextView
-    android:id="@+id/recipe_detail_description_text_view"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:adjustViewBounds="true"
-    android:gravity="center_vertical"
-    android:paddingBottom="5dp"
-    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-    android:textColor="@android:color/white"
-    android:textSize="14sp"
-    tools:text="4. Add 283 grams (20 tablespoons) of butter and 243 grams (1 cup) of milk to the dry ingredients. Beat at low speed until the dry ingredients are fully moistened, using a spatula to help with the incorporation if necessary. Then beat at medium speed for 90 seconds" />
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/step_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/padding_large"
+        app:srcCompat="@drawable/art_cake" />
 
-<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/step_navigation_container"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="0.3">
+    <TextView
+        android:id="@+id/recipe_detail_description_text_view"
+        style="@style/GeneralTextViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/padding_large"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_extra_small"
+        tools:text="4. Add 283 grams (20 tablespoons) of butter and 243 grams (1 cup) of milk to the dry ingredients. Beat at low speed until the dry ingredients are fully moistened, using a spatula to help with the incorporation if necessary. Then beat at medium speed for 90 seconds" />
 
-    <Button
-        android:id="@+id/previous_step_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginStart="4dp"
-        android:background="@android:color/holo_blue_bright"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Step 1" />
+    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/step_navigation_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3">
 
-    <Button
-        android:id="@+id/next_step_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="4dp"
-        android:background="@android:color/holo_blue_bright"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Step 2" />
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/previous_step_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_extra_small"
+            android:layout_marginStart="@dimen/margin_extra_small"
+            android:background="@android:color/holo_blue_bright"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Step 1" />
+
+        <Button
+            android:id="@+id/next_step_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_extra_small"
+            android:layout_marginEnd="@dimen/margin_extra_small"
+            android:background="@android:color/holo_blue_bright"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Step 2" />
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

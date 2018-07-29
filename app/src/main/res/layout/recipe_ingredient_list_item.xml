@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="1dp">
+    android:padding="@dimen/padding_min">
 
     <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -13,11 +13,11 @@
 
         <ImageView
             android:id="@+id/ingredient_ingredient_image_view"
-            android:layout_width="32dp"
-            android:layout_height="59dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="@dimen/ingredient_image_view_width"
+            android:layout_height="@dimen/ingredient_image_view_height"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_extra_small"
+            android:layout_marginTop="@dimen/margin_small"
             android:contentDescription="@string/ingredient_ingredient_image_view_description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,64 +27,54 @@
 
         <TextView
             android:id="@+id/ingredient_ingredient_text_view"
-            android:layout_width="268dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:adjustViewBounds="true"
-            android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="24sp"
+            style="@style/GeneralTextViewStyle"
+            android:layout_width="@dimen/ingredient_text_view_width"
+            android:layout_height="@dimen/ingredient_text_view_height"
+            android:layout_marginStart="@dimen/margin_small"
+            android:textSize="@dimen/text_extra_large"
             app:layout_constraintStart_toEndOf="@+id/ingredient_ingredient_image_view"
             app:layout_constraintTop_toTopOf="@+id/ingredient_ingredient_image_view"
             tools:text="Graham Cracker crumb" />
 
         <TextView
             android:id="@+id/ingredient_measure_label_text_view"
+            style="@style/GeneralTextViewStyle"
             android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:adjustViewBounds="true"
-            android:gravity="center_vertical"
+            android:layout_height="@dimen/ingredient_measure_label_text_view_height"
             android:text="@string/ingredient_measure_label_text_view"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_small"
             app:layout_constraintBottom_toBottomOf="@+id/ingredient_ingredient_image_view"
             app:layout_constraintStart_toStartOf="@+id/ingredient_ingredient_text_view" />
 
         <TextView
             android:id="@+id/ingredient_measure_text_view"
+            style="@style/GeneralTextViewStyle"
             android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:layout_marginStart="8dp"
-            android:adjustViewBounds="true"
-            android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="16sp"
+            android:layout_height="@dimen/ingredient_measure_text_view_height"
+            android:layout_marginStart="@dimen/margin_small"
+            android:textSize="@dimen/text_small"
             app:layout_constraintBottom_toBottomOf="@+id/ingredient_measure_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/ingredient_measure_label_text_view"
             tools:text="CUP" />
 
         <TextView
             android:id="@+id/ingredient_quantity_label_text_view"
-            android:layout_width="70dp"
+            style="@style/GeneralTextViewStyle"
+            android:layout_width="@dimen/ingredient_quantity_label_text_view_width"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:adjustViewBounds="true"
-            android:gravity="center_vertical"
+            android:layout_marginEnd="@dimen/margin_small"
             android:text="@string/ingredient_quantity_label_text_view"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_small"
             app:layout_constraintBottom_toBottomOf="@+id/ingredient_measure_text_view"
             app:layout_constraintEnd_toStartOf="@+id/ingredient_quantity_text_view" />
 
         <TextView
             android:id="@+id/ingredient_quantity_text_view"
-            android:layout_width="52dp"
+            style="@style/GeneralTextViewStyle"
+            android:layout_width="@dimen/ingredient_quantity_text_view_width"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:adjustViewBounds="true"
-            android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="16sp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:textSize="@dimen/text_small"
             app:layout_constraintBottom_toBottomOf="@+id/ingredient_quantity_label_text_view"
             app:layout_constraintEnd_toEndOf="@+id/ingredient_ingredient_text_view"
             tools:text="500" />
