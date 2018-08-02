@@ -27,7 +27,7 @@ public class RecipeActivityTest {
     private Recipe mRecipe;
 
     @Rule
-    public ActivityTestRule<RecipeActivity> mActivityActivityTestRule =
+    public ActivityTestRule<RecipeActivity> mRecipeActivityTestRule =
             new ActivityTestRule<>(RecipeActivity.class, true, false);
 
     @Before
@@ -36,14 +36,14 @@ public class RecipeActivityTest {
 
         Intent intent = new Intent();
         intent.putExtra(MainActivity.RECIPE_ENTITY, mRecipe);
-        mActivityActivityTestRule.launchActivity(intent);
+        mRecipeActivityTestRule.launchActivity(intent);
     }
 
     @Test
     public void checkActivityViews() {
 
         // Check activity title
-        String activityTitle = (String) mActivityActivityTestRule.getActivity().getTitle();
+        String activityTitle = (String) mRecipeActivityTestRule.getActivity().getTitle();
         onView(withText(activityTitle)).check(matches(withText(mRecipe.getName())));
 
         // Check ingredient text view
