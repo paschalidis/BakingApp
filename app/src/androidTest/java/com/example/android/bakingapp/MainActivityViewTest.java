@@ -1,12 +1,15 @@
 package com.example.android.bakingapp;
 
-import android.support.test.espresso.intent.Intents;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.espresso.IdlingRegistry;
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.example.android.bakingapp.activities.MainActivity;
 import com.example.android.bakingapp.activities.RecipeActivity;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,22 +28,37 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class MainActivityViewTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule =
-            new ActivityTestRule<>(MainActivity.class);
+    public IntentsTestRule<MainActivity> mActivityTestRule =
+            new IntentsTestRule<>(MainActivity.class);
 
-    @Test
-    public void viewContainRecyclerView() {
+    private IdlingResource mIdlingResource;
 
-        onView(withId(R.id.recipes_recycler_view))
-                .check(matches(isDisplayed()));
+    @Before
+    public void registerIdlingResource() {
+        mIdlingResource = mActivityTestRule.getActivity().getIdlingResource();
+        IdlingRegistry.getInstance().register(mIdlingResource);
     }
 
     @Test
     public void intentToRecipeActivity() {
-        Intents.init();
+
+        // Check recycler view
         onView(withId(R.id.recipes_recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+                .check(matches(isDisplayed()));
+
+        // Perform click to recipe item
+        onView(withId(R.id.recipes_recycler_view))
+                .perform(RecyclerViewActions.scrollToPosition(2))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, click()));
+
+        // Check intent to recipe activity
         intended(hasComponent(RecipeActivity.class.getName()));
-        Intents.release();
+    }
+
+    @After
+    public void unregisterIdlingResource() {
+        if (mIdlingResource != null) {
+            IdlingRegistry.getInstance().unregister(mIdlingResource);
+        }
     }
 }

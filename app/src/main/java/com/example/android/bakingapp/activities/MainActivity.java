@@ -4,7 +4,11 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.idling.CountingIdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,12 +29,15 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements RecipeOnClickHandler {
 
     public final static String RECIPE_ENTITY = "recipe_entity";
+    public final static String IDLING_RESOURCE_LOADER = "DATA_LOADER";
     private final static int PORTRAIT_TABLET_COLUMNS = 2;
     private final static int LANDSCAPE_TABLET_COLUMNS = 3;
     private RecipeAdapter mRecipeAdapter;
 
     @BindView(R.id.recipes_recycler_view)
     RecyclerView mRecipeRecyclerView;
+
+    CountingIdlingResource idlingResource = new CountingIdlingResource(IDLING_RESOURCE_LOADER);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +69,13 @@ public class MainActivity extends AppCompatActivity implements RecipeOnClickHand
     }
 
     private void setupViewModel() {
+        idlingResource.increment();
         RecipeViewModel viewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
         viewModel.getRecipes().observe(this, new Observer<List<Recipe>>() {
             @Override
             public void onChanged(@Nullable List<Recipe> recipes) {
                 mRecipeAdapter.setRecipeData(recipes);
+                idlingResource.decrement();
             }
         });
 
@@ -77,5 +86,14 @@ public class MainActivity extends AppCompatActivity implements RecipeOnClickHand
         Intent intentToStartRecipeActivity = new Intent(this, RecipeActivity.class);
         intentToStartRecipeActivity.putExtra(RECIPE_ENTITY, recipe);
         startActivity(intentToStartRecipeActivity);
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (idlingResource == null) {
+            idlingResource = new CountingIdlingResource(IDLING_RESOURCE_LOADER);
+        }
+        return idlingResource;
     }
 }
