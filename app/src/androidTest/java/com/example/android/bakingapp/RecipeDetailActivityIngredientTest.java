@@ -22,7 +22,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class RecipeDetailActivityTest {
+public class RecipeDetailActivityIngredientTest {
 
     private Recipe mRecipe;
 
@@ -49,28 +49,9 @@ public class RecipeDetailActivityTest {
         onView(withId(R.id.recipe_ingredients_recycler_view))
                 .check(matches(isDisplayed()));
 
-        // Check step item on recycler view
+        // Check ingredient item on recycler view
         onView(withId(R.id.recipe_ingredients_recycler_view))
                 .check(matches(hasDescendant(withText(mRecipe.getIngredients().get(0).getIngredient()))));
     }
 
-    @Test
-    public void checkStepViews() {
-        Intent intent = new Intent();
-        intent.putExtra(RecipeActivity.RECIPE_ENTITY, mRecipe);
-        intent.putExtra(RecipeActivity.STEP_INDEX, 0);
-        mRecipeDetailActivityTestRule.launchActivity(intent);
-
-        // Check activity title
-        String activityTitle = (String) mRecipeDetailActivityTestRule.getActivity().getTitle();
-        onView(withText(activityTitle)).check(matches(withText(mRecipe.getName())));
-
-        // Check step player
-        onView(withId(R.id.step_player_view))
-                .check(matches(isDisplayed()));
-
-        // Check steps navigator
-        onView(withId(R.id.step_navigation_container))
-                .check(matches(isDisplayed()));
-    }
 }
