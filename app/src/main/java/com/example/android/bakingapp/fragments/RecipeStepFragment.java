@@ -172,7 +172,7 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if(Util.SDK_INT > Build.VERSION_CODES.M){
+        if (Util.SDK_INT > Build.VERSION_CODES.M) {
             initializePlayer();
         }
     }
@@ -180,8 +180,8 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        hideSystemUi();
-        if(Util.SDK_INT <= Build.VERSION_CODES.M || mExoPlayer == null){
+        //hideSystemUi();
+        if ((Util.SDK_INT <= Build.VERSION_CODES.M || mExoPlayer == null)) {
             initializePlayer();
         }
     }
@@ -189,7 +189,7 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if(Util.SDK_INT > Build.VERSION_CODES.M) {
+        if (Util.SDK_INT > Build.VERSION_CODES.M) {
             releasePlayer();
         }
     }
@@ -197,7 +197,12 @@ public class RecipeStepFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if(Util.SDK_INT <= Build.VERSION_CODES.M) {
+        if (mExoPlayer != null) {
+            mPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
+            mPlayerCurrentWindowIndex = mExoPlayer.getCurrentWindowIndex();
+            mPlayerPlayWhenReady = mExoPlayer.getPlayWhenReady();
+        }
+        if (Util.SDK_INT <= Build.VERSION_CODES.M) {
             releasePlayer();
         }
     }
@@ -253,7 +258,7 @@ public class RecipeStepFragment extends Fragment {
         mExoPlayer.prepare(buildMediaSource(mStep.getVideoUrl()), false, true);
     }
 
-    private MediaSource buildMediaSource(String videoUrl){
+    private MediaSource buildMediaSource(String videoUrl) {
         Uri videoUri = Uri.parse(videoUrl);
         String userAgent = com.google.android.exoplayer2.util.Util.getUserAgent(getContext(), getString(R.string.app_name));
         DefaultDataSourceFactory defaultDataSourceFactory = new DefaultDataSourceFactory(getContext(), userAgent);
@@ -266,9 +271,6 @@ public class RecipeStepFragment extends Fragment {
 
     private void releasePlayer() {
         if (mExoPlayer != null) {
-            mPlayerCurrentPosition = mExoPlayer.getCurrentPosition();
-            mPlayerCurrentWindowIndex = mExoPlayer.getCurrentWindowIndex();
-            mPlayerPlayWhenReady = mExoPlayer.getPlayWhenReady();
             mExoPlayer.release();
             mExoPlayer = null;
         }
