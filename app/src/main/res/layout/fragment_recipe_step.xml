@@ -16,6 +16,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingBottom="@dimen/padding_large"
+        app:fastforward_increment="1000"
+        app:rewind_increment="1000"
         app:srcCompat="@drawable/art_cake" />
 
     <TextView
