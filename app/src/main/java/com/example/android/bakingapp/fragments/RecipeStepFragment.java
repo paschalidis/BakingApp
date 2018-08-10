@@ -1,11 +1,13 @@
 package com.example.android.bakingapp.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,6 +35,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;;import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -148,7 +151,6 @@ public class RecipeStepFragment extends Fragment {
                 }
             }
 
-            initializePlayer(mStep.getVideoUrl());
         } else {
             Log.v(TAG, "This fragment has a null Step");
         }
@@ -180,28 +182,45 @@ public class RecipeStepFragment extends Fragment {
 
     private void releasePlayer() {
         if (mExoPlayer != null) {
-            mExoPlayer.stop();
+            long currentPosition = mExoPlayer.getCurrentPosition();
+            int currentWindowIndex = mExoPlayer.getCurrentWindowIndex();
+            boolean playWhenReady = mExoPlayer.getPlayWhenReady();
             mExoPlayer.release();
             mExoPlayer = null;
         }
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        releasePlayer();
+    public void onStart() {
+        super.onStart();
+        if(Util.SDK_INT > Build.VERSION_CODES.M){
+            initializePlayer(mStep.getVideoUrl());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        hideSystemUi();
+        if(Util.SDK_INT <= Build.VERSION_CODES.M || mExoPlayer == null){
+            initializePlayer(mStep.getVideoUrl());
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        releasePlayer();
+        if(Util.SDK_INT > Build.VERSION_CODES.M) {
+            releasePlayer();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        releasePlayer();
+        if(Util.SDK_INT <= Build.VERSION_CODES.M) {
+            releasePlayer();
+        }
     }
 
     public void setStep(Step step) {
@@ -235,6 +254,15 @@ public class RecipeStepFragment extends Fragment {
                 throw new ClassCastException(context.toString() + " must implement StepNavigationOnClickHandler");
             }
         }
+    }
 
+    @SuppressLint("InlinedApi")
+    private void hideSystemUi() {
+        mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 }
